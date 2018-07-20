@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.myweb.e2book">
+    package="com.mycaculate.e2book">
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -16,6 +21,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!--<activity android:name=".MainActivity" />-->
+        <activity android:name=".LoginUpActivity" />
+        <activity android:name=".NewsInfoActivity" />
+        <activity android:name=".CatalogActivity" />
+        <activity android:name=".RankActivity" />
+        <activity android:name=".SearchActivity" />
+        <activity android:name=".MyListActivity" />
+        <activity android:name=".UpLoadActivity" />
+        <activity android:name=".CatalogDetailActivity" />
+
+
     </application>
 
 </manifest>

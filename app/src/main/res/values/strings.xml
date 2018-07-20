@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">e2book</string>
+    <string name="title_activity_main_ui_">main_ui_Activity</string>
 </resources>

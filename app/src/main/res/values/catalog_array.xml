@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="catalog_array">
+        <item>小說</item>
+        <item>漫畫</item>
+        <item>雜誌</item>
+        <item>參考書</item>
+        <item>歷史</item>
+        <item>自傳</item>
+        <item>童書</item>
+        <item>藝術</item>
+        <item>技術</item>
+        <item>電腦</item>
+    </array>
+</resources>

@@ -3,4 +3,11 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="blookerStart">#e65c00</color>
+    <color name="blookerEnd">#F9D423</color>
+    <color name="sunStart">#ffcc33</color>
+    <color name="backgroundStart">#c5a375</color>
+    <color name="backgroundMid">#dfc296</color>
+    <color name="backgroundEnd">#c49e6d</color>
+
 </resources>

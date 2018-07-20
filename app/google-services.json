@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "692982604215",
+    "firebase_url": "https://o2book-e5579.firebaseio.com",
+    "project_id": "o2book-e5579",
+    "storage_bucket": "o2book-e5579.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:692982604215:android:e8d557dee5455bdc",
+        "android_client_info": {
+          "package_name": "com.mycaculate.e2book"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "692982604215-0k8u7r7go7itno5npkdpe64k253elerm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsnpbok25ESFKg7AizGwqEFDt7MLbvY5o"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
