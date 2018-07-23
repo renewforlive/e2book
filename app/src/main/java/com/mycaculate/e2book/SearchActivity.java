@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
@@ -22,7 +23,7 @@ public class SearchActivity extends AppCompatActivity {
     ListView searchListView;
     List<CodeItem> bookCatalogList, locationList;
     CodeAdapter bookCatalogAdapter, locationAdapter;
-    List<Book> bookList;
+    List<Book> bookList=null;
 
 
     @Override
@@ -48,11 +49,8 @@ public class SearchActivity extends AppCompatActivity {
         Log.d("initView()", "Get BookCatalog");
         try
         {
-            Log.d("initView()", "Pass1");
             LoadCode bookCatalog = new LoadCode(this, "BookCatalog", true);
-            Log.d("initView()", "Pass2");
-            bookCatalogList = bookCatalog.execute("http://172.19.107.21/O2BookPHP/getcodelist.php").get();
-            Log.d("initView()", "Pass3");
+            bookCatalogList = bookCatalog.execute(WebConnect.URI_GETCODELIST).get();
         }
         catch (Exception e)
         {
@@ -64,11 +62,8 @@ public class SearchActivity extends AppCompatActivity {
         Log.d("initView()", "Get Location");
         try
         {
-            Log.d("initView()", "Pass1");
             LoadCode bookCatalog = new LoadCode(this, "Location", true);
-            Log.d("initView()", "Pass2");
-            locationList = bookCatalog.execute("http://172.19.107.21/O2BookPHP/getcodelist.php").get();
-            Log.d("initView()", "Pass3");
+            locationList = bookCatalog.execute(WebConnect.URI_GETCODELIST).get();
         }
         catch (Exception e)
         {
@@ -80,7 +75,8 @@ public class SearchActivity extends AppCompatActivity {
 
     private void showView()
     {
-        if (bookCatalogList.size()>0)
+        bookList=new ArrayList<Book>();
+        if (bookList.size()>0)
         {
             Log.d("showView()", "Pass4");
             txtNotFound.setVisibility(View.INVISIBLE);
