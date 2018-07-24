@@ -80,32 +80,8 @@ public class InsertTask extends AsyncTask<String, Void, String> {
             conn.setRequestProperty("Charset", "UTF-8");
             //串流物件
             DataOutputStream request = new DataOutputStream(conn.getOutputStream());
-//            if(this.attachmentFileName != null){
-//            File sourceFile = new File(attachmentFileName);
-//            FileInputStream fileInputStream = new FileInputStream(sourceFile);
-//            request.writeBytes(this.twoHyphens + this.boundary + this.crlf);
-//            request.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\";filename=\"" + this.attachmentFileName + "\"" + this.crlf);
-//            request.writeBytes(this.crlf);
-//
-//            bytesAvailable = fileInputStream.available();
-//
-//            bufferSize = Math.min(bytesAvailable, maxBufferSize);
-//            buffer = new byte[bufferSize];
-//
-//            // read file and write it into form...
-//            bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-//
-//            while (bytesRead > 0) {
-//
-//            request.write(buffer, 0, bufferSize);
-//            bytesAvailable = fileInputStream.available();
-//            bufferSize = Math.min(bytesAvailable, maxBufferSize);
-//            bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-//
-//            }
-//            request.write(buffer);
-//            request.writeBytes(crlf);
-//            }
+
+            //上傳書名等資料
             request.writeBytes(twoHyphens + boundary + crlf);
             Log.i("String===>",request.toString());
             request.writeBytes("Content-Disposition: form-data; name=\"book_name\"" + "\"" + crlf);

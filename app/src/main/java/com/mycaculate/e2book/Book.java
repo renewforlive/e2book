@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 
 public class Book {
         private Bitmap pic;
+//        private int index;
         private String book_name;
         private String catalog;
         private String publisher;
@@ -11,11 +12,20 @@ public class Book {
 
     public Book(Bitmap pic, String book_name, String catalog, String publisher, String author) {
         this.pic = pic;
+//        this.index = index;
         this.book_name = book_name;
         this.catalog = catalog;
         this.publisher = publisher;
         this.author = author;
     }
+
+//    public int getIndex() {
+//        return index;
+//    }
+//
+//    public void setIndex(int index) {
+//        this.index = index;
+//    }
 
     public Bitmap getPic() {
         return pic;

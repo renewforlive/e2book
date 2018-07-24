@@ -3,7 +3,9 @@ package com.mycaculate.e2book;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -19,6 +21,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public class LoadingCatalogTask extends AsyncTask<String, Void, ArrayList<Book>> {
     Context context;
@@ -28,6 +31,7 @@ public class LoadingCatalogTask extends AsyncTask<String, Void, ArrayList<Book>>
     String crlf = "\r\n";
     String boundary = "*****";
     Bitmap bitmap;
+    int[] index_id;
 
     public LoadingCatalogTask(Context context, int catalog_id) {
         this.context = context;
@@ -51,6 +55,8 @@ public class LoadingCatalogTask extends AsyncTask<String, Void, ArrayList<Book>>
             url = new URL(strings[0]);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
+            conn.setDoInput(true);
+            conn.setDoOutput(true);
 
 
             //檔頭區
@@ -70,14 +76,6 @@ public class LoadingCatalogTask extends AsyncTask<String, Void, ArrayList<Book>>
             request.flush();
             request.close();
             conn.connect();
-
-//            InputStream iss = conn.getInputStream();
-//            byte[] ba = new byte[1024];
-//            ByteArrayOutputStream baos_up = new ByteArrayOutputStream();
-//            while (iss.read(ba) != -1)
-//                baos_up.write(ba);
-//            String response = new String(baos_up.toByteArray());
-//            Log.i("資料回傳成功",response );
 
             // 讀取資料流
             InputStream is = conn.getInputStream();
@@ -108,26 +106,51 @@ public class LoadingCatalogTask extends AsyncTask<String, Void, ArrayList<Book>>
         return result;
     }
     private Book convertBook(JSONObject obj) throws JSONException {
-//        Bitmap bitmap;
-//        if(obj.getString("Picture") != null) {
-//            bitmap = LoadImage("http://renewforlive11.000webhostapp.com/images/" + obj.getString("Picture").toString());
-//        }else{
-//            bitmap = LoadImage("http://renewforlive11.000webhostapp.com/apple.jpg");
-//        }
+        String filename = obj.getString("filename");
+
+        if(filename != null) {
+            bitmap = LoadImage("http://renewforlive11.000webhostapp.com/test/images/" + filename);
+        }else{
+            bitmap = LoadImage("http://renewforlive11.000webhostapp.com/test/images/20180723090440.png");
+        }
         String book_name = obj.getString("book_name");
         String catalog_id = obj.getString("catalog_id");
         String author = obj.getString("author");
         String publisher = obj.getString("publisher");
 
-        Log.v("jsonObj=",obj.getString("book_name").toString());
 
-        return new Book(bitmap, book_name, catalog_id, author, publisher);
+        Log.v("jsonObj=",obj.getString("id").toString());
+
+        return new Book(bitmap,book_name, catalog_id, author, publisher);
     }
+    private Bitmap LoadImage(String imageUrl){
+        Bitmap bitmap = null;
+        try {
+            URL url = new URL(imageUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
 
+            conn.setRequestMethod("GET");
+            conn.connect();
+
+            if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                InputStream inputStream = conn.getInputStream();
+
+                bitmap = BitmapFactory.decodeStream(inputStream);
+                inputStream.close();
+                return bitmap;
+            }
+        } catch (MalformedURLException e1) {
+            e1.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
     @Override
     protected void onPostExecute(ArrayList<Book> books) {
         super.onPostExecute(books);
         progressDialog.dismiss();
     }
+
 }

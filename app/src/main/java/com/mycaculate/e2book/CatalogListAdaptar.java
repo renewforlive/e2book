@@ -1,6 +1,7 @@
 package com.mycaculate.e2book;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,11 @@ public class CatalogListAdaptar extends BaseAdapter{
         TextView showCatalog = v.findViewById(R.id.ShowCatalog);
         TextView showPublisher = v.findViewById(R.id.showPublisher);
         TextView showAuthor = v.findViewById(R.id.showAuthor);
+
+        if(book.getPic() != null){
+            showImg.setImageBitmap(book.getPic());
+            Log.i("getPic=",book.getPic().toString());
+        }
 
         showBookName.setText(book.getBook_name());
         showCatalog.setText(book.getCatalog());
