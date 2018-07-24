@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -241,15 +243,45 @@ public class UpLoadActivity extends AppCompatActivity implements View.OnClickLis
     }
     //選擇確定按鈕的內容
     public void start_ok(){
-        newBookName = edtBookName.getText().toString();
-        newAuthor = edtAuthor.getText().toString();
-        newPublisher = edtPublisher.getText().toString();
-        newPrice = edtPrice.getText().toString();
-        newNotes = edtNotes.getText().toString();
-        newCatalog_id = String.valueOf(catalog_id);
-        String[] new_data = new String[]{newBookName,newCatalog_id,newAuthor,newPublisher,newPrice,newNotes};
-        InsertBookTask insertBookTask = new InsertBookTask(this,new_data,picturePath,idForNickname);
-        insertBookTask.execute("http://renewforlive11.000webhostapp.com/test/insertbook.php");
+        if (picturePath == null){
+            Toast.makeText(this,"請選擇照片~~",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        else{
+            if (TextUtils.isEmpty(edtBookName.getText().toString())){
+                Toast.makeText(this,"請輸入書名~~",Toast.LENGTH_SHORT).show();
+                return;
+            }
+            else {
+                newBookName = edtBookName.getText().toString();
+                if(TextUtils.isEmpty(edtAuthor.getText().toString())){
+                    Toast.makeText(this,"請輸入作者~~",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else{
+                    newAuthor = edtAuthor.getText().toString();
+                    if(TextUtils.isEmpty(edtPublisher.getText().toString())){
+                        Toast.makeText(this,"請輸入出版者~~",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    else{
+                        newPublisher = edtPublisher.getText().toString();
+                        if(TextUtils.isEmpty(edtPrice.getText().toString())){
+                            Toast.makeText(this,"請輸入原始價格~~",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        else{
+                            newPrice = edtPrice.getText().toString();
+                            newNotes = edtNotes.getText().toString();
+                            newCatalog_id = String.valueOf(catalog_id);
+                            String[] new_data = new String[]{newBookName,newCatalog_id,newAuthor,newPublisher,newPrice,newNotes};
+                            InsertBookTask insertBookTask = new InsertBookTask(this,new_data,picturePath,idForNickname);
+                            insertBookTask.execute("http://renewforlive11.000webhostapp.com/test/insertbook.php");
+                        }
+                    }
+                }
+            }
+        }
 
     }
     public void back(){

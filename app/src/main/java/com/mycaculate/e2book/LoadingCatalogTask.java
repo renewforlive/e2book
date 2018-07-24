@@ -121,7 +121,7 @@ public class LoadingCatalogTask extends AsyncTask<String, Void, ArrayList<Book>>
 
         Log.v("jsonObj=",obj.getString("id").toString());
 
-        return new Book(bitmap, book_id, book_name, catalog_id, author, publisher);
+        return new Book(bitmap, book_id, book_name, catalog_id, author, publisher,null);
     }
     private Bitmap LoadImage(String imageUrl){
         Bitmap bitmap = null;

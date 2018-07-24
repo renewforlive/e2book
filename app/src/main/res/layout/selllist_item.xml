@@ -8,14 +8,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:orientation="horizontal"
         android:padding="10dp">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="75dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
-            android:layout_weight="1"
+            android:layout_weight="0"
             android:orientation="vertical">
 
             <TextView
@@ -25,7 +26,7 @@
                 android:background="@color/blookerStart"
                 android:text="書名"
                 android:textColor="#FFFFFF"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -36,14 +37,14 @@
                 android:background="@color/blookerStart"
                 android:text="某某書名"
                 android:textColor="#FFFFFF"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
-            android:layout_weight="1"
+            android:layout_weight="0"
             android:orientation="vertical">
 
             <TextView
@@ -53,7 +54,7 @@
                 android:background="@color/blookerStart"
                 android:text="類型"
                 android:textColor="#FFFFFF"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -64,14 +65,14 @@
                 android:background="@color/blookerStart"
                 android:text="某某類型"
                 android:textColor="#FFFFFF"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
-            android:layout_weight="1"
+            android:layout_weight="0"
             android:orientation="vertical">
 
             <TextView
@@ -81,7 +82,7 @@
                 android:background="@color/blookerStart"
                 android:text="上架時間"
                 android:textColor="#FFFFFF"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -92,16 +93,38 @@
                 android:background="@color/blookerStart"
                 android:text="某某時間"
                 android:textColor="#FFFFFF"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/textView42"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="75dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_marginRight="5dp"
             android:layout_weight="0"
-            android:text="請求: 2" />
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView40"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/blookerStart"
+                android:text="請求人數"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/showMember"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@color/blookerStart"
+                android:text="0"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout

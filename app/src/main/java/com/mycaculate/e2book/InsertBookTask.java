@@ -42,7 +42,7 @@ public class InsertBookTask extends AsyncTask<String, Void, String> {
             this.getData = data;
             this.attachmentFileName = picturepath;
             this.idForNickname = idForNickname;
-            member_id = idForNickname[0];
+            this.member_id = idForNickname[0];
     }
 
     @Override

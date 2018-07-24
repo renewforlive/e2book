@@ -11,14 +11,16 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class BuyListAdaptar extends BaseAdapter implements View.OnClickListener{
+public class BuyListAdaptar extends BaseAdapter{
     LayoutInflater inflater;
     Context context;
     ArrayList<Book> arrayList;
+    String member_id;
 
-    public BuyListAdaptar(Context context, ArrayList<Book> arrayList) {
+    public BuyListAdaptar(Context context, ArrayList<Book> arrayList, String member_id) {
         this.context = context;
         this.arrayList = arrayList;
+        this.member_id = member_id;
         inflater = LayoutInflater.from(context);
     }
 
@@ -54,22 +56,26 @@ public class BuyListAdaptar extends BaseAdapter implements View.OnClickListener{
         ImageButton btn_transaction = v.findViewById(R.id.btn_transaction);
         ImageButton btn_delete = v.findViewById(R.id.btn_delete);
 
+        final int book_id = book.getBook_id();
         showBookname.setText(book.getBook_name());
         showCatalog.setText(book.getCatalog());
         showauthor.setText(book.getAuthor());
-        btn_transaction.setOnClickListener(this);
-        btn_delete.setOnClickListener(this);
+
+        btn_transaction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        btn_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UpdateWishList updateWishList = new UpdateWishList(context, member_id,book_id);
+                updateWishList.execute("http://renewforlive11.000webhostapp.com/test/updatewishlist.php");
+            }
+        });
+
 
         return v;
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.btn_transaction:
-                break;
-            case R.id.btn_delete:
-                break;
-        }
     }
 }

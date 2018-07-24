@@ -9,14 +9,16 @@ public class Book {
         private String catalog;
         private String publisher;
         private String author;
+        private String create_time;
 
-    public Book(Bitmap pic, int book_id, String book_name, String catalog, String publisher, String author) {
+    public Book(Bitmap pic, int book_id, String book_name, String catalog, String publisher, String author,String create_time) {
         this.pic = pic;
         this.book_id = book_id;
         this.book_name = book_name;
         this.catalog = catalog;
         this.publisher = publisher;
         this.author = author;
+        this.create_time = create_time;
     }
 
     public int getBook_id() {
@@ -65,5 +67,13 @@ public class Book {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public String getCreate_time() {
+        return create_time;
+    }
+
+    public void setCreate_time(String create_time) {
+        this.create_time = create_time;
     }
 }

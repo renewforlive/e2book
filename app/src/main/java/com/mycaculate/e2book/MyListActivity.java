@@ -140,7 +140,7 @@ public class MyListActivity extends AppCompatActivity implements View.OnClickLis
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        BuyListAdaptar buyListAdaptar = new BuyListAdaptar(this,buyarraylist);
+        BuyListAdaptar buyListAdaptar = new BuyListAdaptar(this,buyarraylist,idForNickname[0]);
         mylistView.setAdapter(buyListAdaptar);
     }
     public void selllist(){
@@ -152,7 +152,7 @@ public class MyListActivity extends AppCompatActivity implements View.OnClickLis
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        SellListAdaptar sellListAdaptar = new SellListAdaptar(this,sellarraylist);
+        SellListAdaptar sellListAdaptar = new SellListAdaptar(this,sellarraylist,idForNickname[0]);
         mylistView.setAdapter(sellListAdaptar);
     }
 }

@@ -98,10 +98,11 @@ public class LoadingShelves extends AsyncTask<String, Void, ArrayList<Book>> {
         String author = obj.getString("author");
         String publisher = obj.getString("publisher");
         int book_id = obj.getInt("id");
+        String create_time = obj.getString("create_time");
 
         Log.v("jsonObj=",obj.getString("id").toString());
 
-        return new Book(null, book_id, book_name, catalog_id, author, publisher);
+        return new Book(null, book_id, book_name, catalog_id, author, publisher, create_time);
     }
 
     @Override
