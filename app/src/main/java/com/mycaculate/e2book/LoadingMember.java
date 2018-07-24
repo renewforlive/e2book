@@ -1,9 +1,7 @@
 package com.mycaculate.e2book;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -19,88 +17,60 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
-public class LoadingLogin extends AsyncTask<String,Void,String[]>{
+public class LoadingMember extends AsyncTask<String,Void,String[]> {
     Context context;
-    String account;
-    String password;
+    String member_id;
     String twoHyphens = "--";
     String crlf = "\r\n";
     String boundary = "*****";
-    int member_index;
-    String member_nickname;
-    String[] idForNickname;
 
-
-
-
-    public LoadingLogin(Context context, String account, String password) {
+    public LoadingMember(Context context, String member_id) {
         this.context = context;
-        this.account = account;
-        this.password = password;
+        this.member_id = member_id;
     }
 
     @Override
     protected String[] doInBackground(String... strings) {
         URL url = null;
         try {
-            //建立連結
+            //連線
             url = new URL(strings[0]);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
             conn.setDoInput(true);
             conn.setDoOutput(true);
-
-
             //檔頭區
             conn.setRequestProperty("Connection", "Keep-Alive");
             conn.setRequestProperty("Cache-Control", "no-cache");
             conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + this.boundary);
             conn.setRequestProperty("Charset", "UTF-8");
-            //傳入類型的id
             //串流物件
             DataOutputStream request = new DataOutputStream(conn.getOutputStream());
+
+            //上傳書名等資料
             request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"account\"" + "\"" + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"member_id\"" + "\"" + crlf);
             request.writeBytes(crlf);
-            request.writeBytes(account);
-            request.writeBytes(crlf);
-            request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"password\"" + "\"" + crlf);
-            request.writeBytes(crlf);
-            request.writeBytes(password);
+            request.writeBytes(member_id);
             request.writeBytes(crlf);
             request.writeBytes(twoHyphens + boundary + twoHyphens + crlf);
             request.flush();
             request.close();
-            conn.connect();
 
-            // 讀取資料流
+            conn.connect();
             InputStream is = conn.getInputStream();
             byte[] b = new byte[1024];
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             while (is.read(b) != -1)
                 baos.write(b);
             String JSONResp = new String(baos.toByteArray());
-            Log.i("Json = ", JSONResp);
-            if (JSONResp.indexOf("no account") != -1){
-                Log.i("no account","沒帳號");
-                String[] noAccount = new String[]{String.valueOf(0),String.valueOf(0)};
-                return noAccount;
-            }
-            else if (JSONResp.indexOf("password fail") != -1){
-                Log.i("password fail","密碼錯誤");
-                String[] passwordFail = new String[]{String.valueOf(0),String.valueOf(1)};
-                return passwordFail;
-            }
-            else{
-                JSONArray arr = new JSONArray(JSONResp);
-                JSONObject obj = arr.getJSONObject(0);
-                member_index = obj.getInt("id");
-                member_nickname = obj.getString("nickname");
-                idForNickname = new String[]{String.valueOf(member_index),member_nickname};
+            Log.i("資料回傳成功",JSONResp );
 
-                return idForNickname;
-            }
+            JSONArray arr = new JSONArray(JSONResp);
+            JSONObject obj = arr.getJSONObject(0);
+            String[] member_data = new String[]{obj.getString("account"),obj.getString("email"),String.valueOf(obj.getInt("area_id"))};
+
+            return member_data;
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -111,7 +81,6 @@ public class LoadingLogin extends AsyncTask<String,Void,String[]>{
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 
@@ -123,6 +92,5 @@ public class LoadingLogin extends AsyncTask<String,Void,String[]>{
     @Override
     protected void onPostExecute(String[] s) {
         super.onPostExecute(s);
-
     }
 }

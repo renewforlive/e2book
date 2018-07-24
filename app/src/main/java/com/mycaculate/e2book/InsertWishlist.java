@@ -1,7 +1,6 @@
 package com.mycaculate.e2book;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -15,19 +14,19 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
-public class LoadingLogup extends AsyncTask<String,Void,String> {
+public class InsertWishlist extends AsyncTask<String, Void, String> {
+    int member_id;
+    int book_id;
     Context context;
-    String[] data;
     String twoHyphens = "--";
     String crlf = "\r\n";
     String boundary = "*****";
-    int member_id;
-    String nickname;
 
 
-    public LoadingLogup(Context context, String[] data) {
+    public InsertWishlist(Context context, String member_id, int book_id) {
         this.context = context;
-        this.data = data;
+        this.member_id = Integer.parseInt(member_id);
+        this.book_id = book_id;
     }
 
     @Override
@@ -50,30 +49,17 @@ public class LoadingLogup extends AsyncTask<String,Void,String> {
 
             //上傳書名等資料
             request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"account\"" + "\"" + crlf);
+            Log.i("String===>",request.toString());
+            request.writeBytes("Content-Disposition: form-data; name=\"member_id\"" + "\"" + crlf);
             request.writeBytes(crlf);
-            request.writeBytes(data[0]);
-            request.writeBytes(crlf);
-            request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"pwd\"" + "\"" + crlf);
-            request.writeBytes(crlf);
-            request.writeBytes(data[1]);
+            request.writeBytes(String.valueOf(member_id));
             request.writeBytes(crlf);
             request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"nickname\"" + "\"" + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"book_id\"" + "\"" + crlf);
             request.writeBytes(crlf);
-            request.writeBytes(data[2]);
+            request.writeBytes(String.valueOf(book_id));
             request.writeBytes(crlf);
-            request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"email\"" + "\"" + crlf);
-            request.writeBytes(crlf);
-            request.writeBytes(data[3]);
-            request.writeBytes(crlf);
-            request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"area_id\"" + "\"" + crlf);
-            request.writeBytes(crlf);
-            request.writeBytes(data[4]);
-            request.writeBytes(crlf);
+
             request.writeBytes(twoHyphens + boundary + twoHyphens + crlf);
             request.flush();
             request.close();
@@ -96,7 +82,6 @@ public class LoadingLogup extends AsyncTask<String,Void,String> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 
@@ -108,22 +93,9 @@ public class LoadingLogup extends AsyncTask<String,Void,String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        //如果成功上傳後
-        int isSuccess = 0;
-        isSuccess = s.indexOf("Log Up Success");
-        if (isSuccess != -1){
-            Toast.makeText(context,"新增一筆資料", Toast.LENGTH_SHORT).show();
-            //取得memberID和nickname的資料
-            member_id = Integer.parseInt(s.split(",")[1]);
-            Log.i("member_id=",String.valueOf(member_id));
-            nickname = s.split(":")[1];
-            Log.i("nickname=",nickname);
-            //將資料傳到主畫面
-            String[] idForNickname = new String[]{String.valueOf(member_id),nickname};
-            Intent intent = new Intent();
-            intent.putExtra("idForNickname",idForNickname);
-            intent.setClass(context,MainActivity.class);
-            context.startActivity(intent);
+
+        if (s.indexOf("add wishlist Success") != -1){
+            Toast.makeText(context,"已經加入您的清單",Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -1,16 +1,11 @@
 package com.mycaculate.e2book;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -20,19 +15,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
-
-import static android.media.MediaRecorder.VideoSource.CAMERA;
 
 public class UpLoadActivity extends AppCompatActivity implements View.OnClickListener{
     EditText edtBookName,edtAuthor,edtPublisher,edtPrice, edtNotes;
@@ -40,6 +30,9 @@ public class UpLoadActivity extends AppCompatActivity implements View.OnClickLis
     ImageView showimg;
     Spinner spinner_catalog;
     int catalog_id;
+    //MainActivity傳來的member_id和nickname
+    Bundle bData;
+    String[] idForNickname;
     //request的標語
     int IMAGE_TAG = 1;
     int CAMERA = 2;
@@ -62,6 +55,11 @@ public class UpLoadActivity extends AppCompatActivity implements View.OnClickLis
 
         initView();
         initButton();
+        //bData
+        bData = getIntent().getExtras();
+        if (bData != null){
+            idForNickname = bData.getStringArray("bData");
+        }
         //手機解析度
         mPhone = new DisplayMetrics();
         //spinner的使用
@@ -149,6 +147,7 @@ public class UpLoadActivity extends AppCompatActivity implements View.OnClickLis
                 start_ok();
                 break;
             case R.id.btn_cancel:
+                back();
                 break;
         }
     }
@@ -249,7 +248,14 @@ public class UpLoadActivity extends AppCompatActivity implements View.OnClickLis
         newNotes = edtNotes.getText().toString();
         newCatalog_id = String.valueOf(catalog_id);
         String[] new_data = new String[]{newBookName,newCatalog_id,newAuthor,newPublisher,newPrice,newNotes};
-        InsertTask insertTask = new InsertTask(this,new_data,picturePath);
-        insertTask.execute("http://renewforlive11.000webhostapp.com/test/insertbook.php");
+        InsertBookTask insertBookTask = new InsertBookTask(this,new_data,picturePath,idForNickname);
+        insertBookTask.execute("http://renewforlive11.000webhostapp.com/test/insertbook.php");
+
+    }
+    public void back(){
+        Intent intent = new Intent();
+        intent.putExtra("idForNickname",idForNickname);
+        intent.setClass(UpLoadActivity.this,MainActivity.class);
+        startActivity(intent);
     }
 }

@@ -16,6 +16,8 @@ public class CatalogActivity extends AppCompatActivity implements View.OnClickLi
     ImageButton btn_novel,btn_comic,btn_mazagine,btn_reference,btn_history,btn_intro,btn_child,btn_art,btn_pro,btn_computer;
     Intent intent;
     int catalog_type;
+    Bundle bData;
+    String[] idForNickname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +26,10 @@ public class CatalogActivity extends AppCompatActivity implements View.OnClickLi
 
         initView();
         initButton();
+        bData = getIntent().getExtras();
+        if (bData!=null){
+            idForNickname = bData.getStringArray("bData");
+        }
         intent = new Intent();
         intent.setClass(CatalogActivity.this, CatalogDetailActivity.class);
     }
@@ -56,51 +62,61 @@ public class CatalogActivity extends AppCompatActivity implements View.OnClickLi
         switch (v.getId()){
             case R.id.btn_novel:
                 catalog_type = 1;
+                intent.putExtra("bData",idForNickname);
                 intent.putExtra("catalog_type",catalog_type);
                 startActivity(intent);
                 break;
             case R.id.btn_comic:
                 catalog_type = 2;
+                intent.putExtra("bData",idForNickname);
                 intent.putExtra("catalog_type",catalog_type);
                 startActivity(intent);
                 break;
             case R.id.btn_mazagine:
                 catalog_type = 3;
+                intent.putExtra("bData",idForNickname);
                 intent.putExtra("catalog_type",catalog_type);
                 startActivity(intent);
                 break;
             case R.id.btn_reference:
                 catalog_type = 4;
+                intent.putExtra("bData",idForNickname);
                 intent.putExtra("catalog_type",catalog_type);
                 startActivity(intent);
                 break;
             case R.id.btn_history:
                 catalog_type = 5;
+                intent.putExtra("bData",idForNickname);
                 intent.putExtra("catalog_type",catalog_type);
                 startActivity(intent);
                 break;
             case R.id.btn_intro:
                 catalog_type = 6;
+                intent.putExtra("bData",idForNickname);
                 intent.putExtra("catalog_type",catalog_type);
                 startActivity(intent);
                 break;
             case R.id.btn_child:
                 catalog_type = 7;
+                intent.putExtra("bData",idForNickname);
                 intent.putExtra("catalog_type",catalog_type);
                 startActivity(intent);
                 break;
             case R.id.btn_art:
                 catalog_type = 8;
+                intent.putExtra("bData",idForNickname);
                 intent.putExtra("catalog_type",catalog_type);
                 startActivity(intent);
                 break;
             case R.id.btn_pro:
                 catalog_type = 9;
+                intent.putExtra("bData",idForNickname);
                 intent.putExtra("catalog_type",catalog_type);
                 startActivity(intent);
                 break;
             case R.id.btn_computer:
                 catalog_type = 10;
+                intent.putExtra("bData",idForNickname);
                 intent.putExtra("catalog_type",catalog_type);
                 startActivity(intent);
                 break;

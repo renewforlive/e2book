@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_catalog:
                 //到類型的Activity
+                intent.putExtra("bData",idForNickname);
                 intent.setClass(MainActivity.this,CatalogActivity.class);
                 startActivity(intent);
                 break;
@@ -71,10 +72,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_mylist:
                 //到我的列表的Activity
+                intent.putExtra("bData",idForNickname);
                 startActivity(intent.setClass(MainActivity.this,MyListActivity.class));
                 break;
             case R.id.btn_upload:
                 //到賣出書籍的Activity
+                intent.putExtra("bData",idForNickname);
                 startActivity(intent.setClass(MainActivity.this,UpLoadActivity.class));
                 break;
         }

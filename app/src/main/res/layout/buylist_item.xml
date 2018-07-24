@@ -2,18 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/backgroundMid"
         android:orientation="horizontal"
         android:padding="10dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:orientation="vertical">
 
             <TextView
@@ -21,19 +23,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:text="交易人" />
+                android:background="@color/blookerStart"
+                android:text="書名"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textView31"
+                android:id="@+id/showBookName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="某某帳號" />
+                android:background="@color/blookerStart"
+                android:text="某某書名"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:orientation="vertical">
 
             <TextView
@@ -41,19 +50,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:text="書名" />
+                android:background="@color/blookerStart"
+                android:text="類型"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textView33"
+                android:id="@+id/showCatalog"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="某某書名" />
+                android:background="@color/blookerStart"
+                android:text="某某類型"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:orientation="vertical">
 
             <TextView
@@ -61,21 +77,45 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:text="種類" />
+                android:background="@color/blookerStart"
+                android:text="作者"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textView35"
+                android:id="@+id/showAuthor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="某某種類" />
+                android:background="@color/blookerStart"
+                android:text="某某作者"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+
         </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/imageButton16"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
             android:layout_weight="0"
-            android:background="@mipmap/transaction" />
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/btn_transaction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:background="@mipmap/transaction" />
+
+            <ImageButton
+                android:id="@+id/btn_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:background="@mipmap/delete" />
+        </LinearLayout>
+
     </LinearLayout>
+
 </LinearLayout>

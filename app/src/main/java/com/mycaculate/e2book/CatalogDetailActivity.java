@@ -16,6 +16,7 @@ public class CatalogDetailActivity extends AppCompatActivity {
     int catalog_type;
     ArrayList<Book> arrayList;
     ListView catalog_listView;
+    String[] idForNickname;
 
 
     @Override
@@ -27,6 +28,7 @@ public class CatalogDetailActivity extends AppCompatActivity {
         catalog_listView = findViewById(R.id.catalog_listView);
         bDate = this.getIntent().getExtras();
         catalog_type = bDate.getInt("catalog_type");
+        idForNickname = bDate.getStringArray("bData");
         change_catalog();
 
 
@@ -38,7 +40,7 @@ public class CatalogDetailActivity extends AppCompatActivity {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        CatalogListAdaptar catalogListAdaptar = new CatalogListAdaptar(this,arrayList);
+        CatalogListAdaptar catalogListAdaptar = new CatalogListAdaptar(this,arrayList,idForNickname);
         catalog_listView.setAdapter(catalogListAdaptar);
 
     }

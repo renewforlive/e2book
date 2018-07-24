@@ -4,28 +4,28 @@ import android.graphics.Bitmap;
 
 public class Book {
         private Bitmap pic;
-//        private int index;
+        private int book_id;
         private String book_name;
         private String catalog;
         private String publisher;
         private String author;
 
-    public Book(Bitmap pic, String book_name, String catalog, String publisher, String author) {
+    public Book(Bitmap pic, int book_id, String book_name, String catalog, String publisher, String author) {
         this.pic = pic;
-//        this.index = index;
+        this.book_id = book_id;
         this.book_name = book_name;
         this.catalog = catalog;
         this.publisher = publisher;
         this.author = author;
     }
 
-//    public int getIndex() {
-//        return index;
-//    }
-//
-//    public void setIndex(int index) {
-//        this.index = index;
-//    }
+    public int getBook_id() {
+        return book_id;
+    }
+
+    public void setBook_id(int book_id) {
+        this.book_id = book_id;
+    }
 
     public Bitmap getPic() {
         return pic;

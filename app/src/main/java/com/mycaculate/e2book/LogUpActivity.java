@@ -1,5 +1,6 @@
 package com.mycaculate.e2book;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -35,6 +36,7 @@ public class LogUpActivity extends AppCompatActivity implements View.OnClickList
         spinner_location.setOnItemSelectedListener(this);
 
     }
+    //初始化介面
     private void initView(){
 
         spinner_location =findViewById(R.id.spinner_location);
@@ -46,6 +48,7 @@ public class LogUpActivity extends AppCompatActivity implements View.OnClickList
         btn_ok = findViewById(R.id.btn_ok);
         btn_back = findViewById(R.id.btn_back);
     }
+    //初始化按鈕
     private void initButton(){
         btn_ok.setOnClickListener(this);
         btn_back.setOnClickListener(this);
@@ -95,6 +98,7 @@ public class LogUpActivity extends AppCompatActivity implements View.OnClickList
 
                 break;
             case R.id.btn_back:
+                startActivity(new Intent(LogUpActivity.this,LoginActivity.class));
                 break;
         }
     }
