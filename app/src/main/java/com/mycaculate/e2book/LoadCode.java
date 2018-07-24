@@ -42,6 +42,8 @@ public class LoadCode extends AsyncTask<String, Void, List<CodeItem>>
     protected List<CodeItem> doInBackground(String... strings) {
         List<CodeItem> result=new ArrayList<CodeItem>();
         URL u=null;
+        JSONObject object;
+        int a, cnt=0;
         try
         {
             u=new URL(strings[0]);
@@ -61,18 +63,28 @@ public class LoadCode extends AsyncTask<String, Void, List<CodeItem>>
             InputStream is=conn.getInputStream();
             byte[] b=new byte[1024];
             ByteArrayOutputStream baos=new ByteArrayOutputStream();
-            while (is.read(b)!=-1)
-                baos.write(b);
+            a=is.read(b);
+            Log.d("first a=",String.valueOf(a));
+            while (a>0)
+            {
+                baos.write(b, 0, a);
+                a = is.read(b);
+                Log.d("a=",String.valueOf(a));
+            }
             is.close();
             resultString =new String(baos.toByteArray());
             Log.d("LoadCode","response="+resultString);
-            JSONArray array=new JSONArray(resultString);
-            if (includeEmpty)
-                result.add(new CodeItem(classification, 0, ""));
-            for (int i=0;i<array.length();i++)
+            object=new JSONObject(resultString);
+            if (object.isNull(resultString))
+                Log.d("LoadCode","JSONObject(response)=null");
+            else
             {
-                if (array.getJSONObject(i)!=null)
-                    result.add(CodeItem.convertCodeItem(array.getJSONObject(i)));
+                JSONArray array = new JSONArray(resultString);
+                if (includeEmpty) result.add(new CodeItem(classification, 0, ""));
+                for (int i = 0; i < array.length(); i++) {
+                    if (array.getJSONObject(i) != null)
+                        result.add(CodeItem.convertCodeItem(array.getJSONObject(i)));
+                }
             }
         } catch (ProtocolException e) {
             e.printStackTrace();
