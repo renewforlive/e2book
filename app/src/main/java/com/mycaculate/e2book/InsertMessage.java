@@ -4,10 +4,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -17,20 +13,23 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
-public class LoadingMember extends AsyncTask<String,Void,String[]> {
+public class InsertMessage extends AsyncTask<String, Void, String> {
     Context context;
-    String member_id;
+    String sender_id,recipient_id,shelves_id,text;
     String twoHyphens = "--";
     String crlf = "\r\n";
     String boundary = "*****";
 
-    public LoadingMember(Context context, String member_id) {
+    public InsertMessage(Context context, String sender_id,String recipient_id, String text, String shelves_id) {
         this.context = context;
-        this.member_id = member_id;
+        this.sender_id = sender_id;
+        this.recipient_id = recipient_id;
+        this.text = text;
+        this.shelves_id = shelves_id;
     }
 
     @Override
-    protected String[] doInBackground(String... strings) {
+    protected String doInBackground(String... strings) {
         URL url = null;
         try {
             //連線
@@ -49,28 +48,41 @@ public class LoadingMember extends AsyncTask<String,Void,String[]> {
 
             //上傳書名等資料
             request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"member_id" + "\"" + crlf);
+            Log.i("String===>",request.toString());
+            request.writeBytes("Content-Disposition: form-data; name=\"from_id" + "\"" + crlf);
             request.writeBytes(crlf);
-            request.writeBytes(member_id);
+            request.writeBytes(sender_id);
+            request.writeBytes(crlf);
+            request.writeBytes(twoHyphens + boundary + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"attn_id" + "\"" + crlf);
+            request.writeBytes(crlf);
+            request.writeBytes(recipient_id);
+            request.writeBytes(crlf);
+            request.writeBytes(twoHyphens + boundary + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"shelves_id" + "\"" + crlf);
+            request.writeBytes(crlf);
+            request.writeBytes(shelves_id);
+            request.writeBytes(crlf);
+            request.writeBytes(twoHyphens + boundary + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"message" + "\"" + crlf);
+            request.writeBytes(crlf);
+            request.writeBytes(text);
             request.writeBytes(crlf);
             request.writeBytes(twoHyphens + boundary + twoHyphens + crlf);
             request.flush();
             request.close();
 
             conn.connect();
+
             InputStream is = conn.getInputStream();
             byte[] b = new byte[1024];
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             while (is.read(b) != -1)
                 baos.write(b);
-            String JSONResp = new String(baos.toByteArray());
-            Log.i("資料回傳成功",JSONResp );
+            String response = new String(baos.toByteArray());
+            Log.i("資料回傳成功",response );
 
-            JSONArray arr = new JSONArray(JSONResp);
-            JSONObject obj = arr.getJSONObject(0);
-            String[] member_data = new String[]{obj.getString("account"),obj.getString("email"),String.valueOf(obj.getInt("area_id"))};
-
-            return member_data;
+            return response;
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -78,10 +90,10 @@ public class LoadingMember extends AsyncTask<String,Void,String[]> {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
+
         return null;
+
     }
 
     @Override
@@ -90,7 +102,7 @@ public class LoadingMember extends AsyncTask<String,Void,String[]> {
     }
 
     @Override
-    protected void onPostExecute(String[] s) {
+    protected void onPostExecute(String s) {
         super.onPostExecute(s);
     }
 }

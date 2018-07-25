@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import static com.mycaculate.e2book.WebConnect.URI_INSERTWISHLIST;
+
 public class CatalogListAdaptar extends BaseAdapter{
     LayoutInflater inflater;
     Context context;
@@ -65,7 +67,9 @@ public class CatalogListAdaptar extends BaseAdapter{
         }
 
         showBookName.setText(book.getBook_name());
-        showCatalog.setText(book.getCatalog());
+        int catalog_id = Integer.parseInt(book.getCatalog());
+        String catalog_name = change_catalog(catalog_id);
+        showCatalog.setText(catalog_name);
         showPublisher.setText(book.getPublisher());
         showAuthor.setText(book.getAuthor());
         book_id = book.getBook_id();
@@ -75,12 +79,48 @@ public class CatalogListAdaptar extends BaseAdapter{
             @Override
             public void onClick(View v) {
                 InsertWishlist insertWishlist = new InsertWishlist(context,idForNickname[0],book_id);
-                insertWishlist.execute("http://renewforlive11.000webhostapp.com/test/insertwishlist.php");
+                insertWishlist.execute(URI_INSERTWISHLIST);
                 btn_mywish.setEnabled(false);
                 btn_mywish.setVisibility(View.INVISIBLE);
             }
         });
 
         return v;
+    }
+    public String change_catalog(int catalog_id){
+        String catalog_name = "";
+        switch (catalog_id){
+            case 1:
+                catalog_name = "小說";
+                break;
+            case 2:
+                catalog_name = "漫畫";
+                break;
+            case 3:
+                catalog_name = "雜誌";
+                break;
+            case 4:
+                catalog_name = "參考書";
+                break;
+            case 5:
+                catalog_name = "歷史";
+                break;
+            case 6:
+                catalog_name = "自傳";
+                break;
+            case 7:
+                catalog_name = "童書";
+                break;
+            case 8:
+                catalog_name = "藝術";
+                break;
+            case 9:
+                catalog_name = "技術";
+                break;
+            case 10:
+                catalog_name = "電腦";
+                break;
+        }
+        return catalog_name;
     }
 }

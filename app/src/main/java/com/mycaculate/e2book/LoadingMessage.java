@@ -16,21 +16,23 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.ArrayList;
 
-public class LoadingMember extends AsyncTask<String,Void,String[]> {
+public class LoadingMessage extends AsyncTask<String,Void,ArrayList<Message>> {
     Context context;
     String member_id;
     String twoHyphens = "--";
     String crlf = "\r\n";
     String boundary = "*****";
 
-    public LoadingMember(Context context, String member_id) {
+    public LoadingMessage(Context context, String member_id) {
         this.context = context;
         this.member_id = member_id;
     }
 
     @Override
-    protected String[] doInBackground(String... strings) {
+    protected ArrayList<Message> doInBackground(String... strings) {
+        ArrayList<Message> result = new ArrayList<Message>();
         URL url = null;
         try {
             //連線
@@ -65,12 +67,19 @@ public class LoadingMember extends AsyncTask<String,Void,String[]> {
                 baos.write(b);
             String JSONResp = new String(baos.toByteArray());
             Log.i("資料回傳成功",JSONResp );
-
-            JSONArray arr = new JSONArray(JSONResp);
-            JSONObject obj = arr.getJSONObject(0);
-            String[] member_data = new String[]{obj.getString("account"),obj.getString("email"),String.valueOf(obj.getInt("area_id"))};
-
-            return member_data;
+            if(JSONResp.indexOf("[]") != -1){
+                result = null;
+            }
+            else {
+                JSONArray arr = new JSONArray(JSONResp);
+                for (int i= 0; i<arr.length(); i++){
+                    if (arr.getJSONObject(i) != null) {
+                        result.add(convertMessage(arr.getJSONObject(i)));
+                        Log.v("data=", arr.getJSONObject(i).toString());
+                    }
+                }
+            }
+            return result;
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -81,7 +90,21 @@ public class LoadingMember extends AsyncTask<String,Void,String[]> {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         return null;
+    }
+    private Message convertMessage(JSONObject obj) throws JSONException {
+
+        String msg = obj.getString("message");
+        String sender = member_id;
+        String recipient = obj.getString("attn_id");
+        int shelves_id = obj.getInt("shelves_id");
+        String create_time = obj.getString("create_time");
+
+        Log.v("jsonObj=",obj.getString("id").toString());
+
+
+        return new Message(msg, sender, recipient,shelves_id, create_time);
     }
 
     @Override
@@ -90,7 +113,7 @@ public class LoadingMember extends AsyncTask<String,Void,String[]> {
     }
 
     @Override
-    protected void onPostExecute(String[] s) {
-        super.onPostExecute(s);
+    protected void onPostExecute(ArrayList<Message> arrayList) {
+        super.onPostExecute(arrayList);
     }
 }

@@ -23,6 +23,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+import static com.mycaculate.e2book.WebConnect.URI_IMAGES;
+
 public class LoadingCatalogTask extends AsyncTask<String, Void, ArrayList<Book>> {
     Context context;
     private final ProgressDialog progressDialog;
@@ -68,7 +70,7 @@ public class LoadingCatalogTask extends AsyncTask<String, Void, ArrayList<Book>>
             //串流物件
             DataOutputStream request = new DataOutputStream(conn.getOutputStream());
             request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"catalog_id\"" + "\"" + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"catalog_id" + "\"" + crlf);
             request.writeBytes(crlf);
             request.writeBytes(String.valueOf(catalog_id));
             request.writeBytes(crlf);
@@ -109,9 +111,9 @@ public class LoadingCatalogTask extends AsyncTask<String, Void, ArrayList<Book>>
         String filename = obj.getString("filename");
 
         if(filename != null) {
-            bitmap = LoadImage("http://renewforlive11.000webhostapp.com/test/images/" + filename);
+            bitmap = LoadImage(URI_IMAGES + filename);
         }else{
-            bitmap = LoadImage("http://renewforlive11.000webhostapp.com/test/images/20180723090440.png");
+            bitmap = LoadImage(URI_IMAGES + "no_pictures.png");
         }
         String book_name = obj.getString("book_name");
         String catalog_id = obj.getString("catalog_id");

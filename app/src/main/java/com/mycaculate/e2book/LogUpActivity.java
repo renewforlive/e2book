@@ -12,6 +12,8 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import static com.mycaculate.e2book.WebConnect.URI_LOGUP;
+
 public class LogUpActivity extends AppCompatActivity implements View.OnClickListener,AdapterView.OnItemSelectedListener{
     Spinner spinner_location;
     EditText edtusername=null,edtPwd=null,edtRePwd=null,edtNickname=null,edtMail=null;
@@ -104,7 +106,7 @@ public class LogUpActivity extends AppCompatActivity implements View.OnClickList
     }
     public void uploadData(){
         LoadingLogup loadingLogup = new LoadingLogup(this,data);
-        loadingLogup.execute("http://renewforlive11.000webhostapp.com/test/insertmember.php");
+        loadingLogup.execute(URI_LOGUP);
     }
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

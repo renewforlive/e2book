@@ -18,6 +18,9 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
+import static com.mycaculate.e2book.WebConnect.URI_INSERTIMG;
+import static com.mycaculate.e2book.WebConnect.URI_INSERTSHELVES;
+
 public class InsertBookTask extends AsyncTask<String, Void, String> {
     Context context;
     private ProgressDialog dialog;
@@ -32,9 +35,7 @@ public class InsertBookTask extends AsyncTask<String, Void, String> {
     //會員id
     String[] idForNickname;
     String member_id;
-    int bytesRead, bytesAvailable, bufferSize;
-    byte[] buffer;
-    int maxBufferSize = 1 * 1024 * 1024;
+
 
     public InsertBookTask(Context context, String[] data, String picturepath,String[] idForNickname) {
             this.context = context;
@@ -64,7 +65,7 @@ public class InsertBookTask extends AsyncTask<String, Void, String> {
                 index = Integer.parseInt(s.split(",")[1]);
                 Log.i("id=",String.valueOf(index));
                 InsertImgTask insertImgTask = new InsertImgTask(context,attachmentFileName);
-                insertImgTask.execute("http://renewforlive11.000webhostapp.com/test/insertimg.php");
+                insertImgTask.execute(URI_INSERTIMG);
 
             }
     }
@@ -90,32 +91,32 @@ public class InsertBookTask extends AsyncTask<String, Void, String> {
             //上傳書名等資料
             request.writeBytes(twoHyphens + boundary + crlf);
             Log.i("String===>",request.toString());
-            request.writeBytes("Content-Disposition: form-data; name=\"book_name\"" + "\"" + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"book_name" + "\"" + crlf);
             request.writeBytes(crlf);
             request.writeBytes(getData[0]);
             request.writeBytes(crlf);
             request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"catalog_id\"" + "\"" + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"catalog_id" + "\"" + crlf);
             request.writeBytes(crlf);
             request.writeBytes(getData[1]);
             request.writeBytes(crlf);
             request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"author\"" + "\"" + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"author" + "\"" + crlf);
             request.writeBytes(crlf);
             request.writeBytes(getData[2]);
             request.writeBytes(crlf);
             request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"publisher\"" + "\"" + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"publisher" + "\"" + crlf);
             request.writeBytes(crlf);
             request.writeBytes(getData[3]);
             request.writeBytes(crlf);
             request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"price\"" + "\"" + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"price" + "\"" + crlf);
             request.writeBytes(crlf);
             request.writeBytes(getData[4]);
             request.writeBytes(crlf);
             request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"notes\"" + "\"" + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"notes" + "\"" + crlf);
             request.writeBytes(crlf);
             request.writeBytes(getData[5]);
             request.writeBytes(crlf);
@@ -201,17 +202,17 @@ public class InsertBookTask extends AsyncTask<String, Void, String> {
                     request.writeBytes(crlf);
                 }
                 request.writeBytes(twoHyphens + boundary + crlf);
-                request.writeBytes("Content-Disposition: form-data; name=\"classification\"" + "\"" + crlf);
+                request.writeBytes("Content-Disposition: form-data; name=\"classification" + "\"" + crlf);
                 request.writeBytes(crlf);
                 request.writeBytes("book");
                 request.writeBytes(crlf);
                 request.writeBytes(twoHyphens + boundary + crlf);
-                request.writeBytes("Content-Disposition: form-data; name=\"reference_id\"" + "\"" + crlf);
+                request.writeBytes("Content-Disposition: form-data; name=\"reference_id" + "\"" + crlf);
                 request.writeBytes(crlf);
                 request.writeBytes(String.valueOf(index));
                 request.writeBytes(crlf);
                 request.writeBytes(twoHyphens + boundary + crlf);
-                request.writeBytes("Content-Disposition: form-data; name=\"description\"" + "\"" + crlf);
+                request.writeBytes("Content-Disposition: form-data; name=\"description" + "\"" + crlf);
                 request.writeBytes(crlf);
                 request.writeBytes("book");
                 request.writeBytes(crlf);
@@ -251,7 +252,7 @@ public class InsertBookTask extends AsyncTask<String, Void, String> {
 
                 if (s.indexOf("add img Success") != -1){
                     InsertShelves insertShelves = new InsertShelves(context);
-                    insertShelves.execute("http://renewforlive11.000webhostapp.com/test/insertshelves.php");
+                    insertShelves.execute(URI_INSERTSHELVES);
                 }
             }
         }
@@ -283,12 +284,12 @@ public class InsertBookTask extends AsyncTask<String, Void, String> {
                 //上傳書名等資料
                 request.writeBytes(twoHyphens + boundary + crlf);
                 Log.i("String===>",request.toString());
-                request.writeBytes("Content-Disposition: form-data; name=\"book_id\"" + "\"" + crlf);
+                request.writeBytes("Content-Disposition: form-data; name=\"book_id" + "\"" + crlf);
                 request.writeBytes(crlf);
                 request.writeBytes(String.valueOf(index));
                 request.writeBytes(crlf);
                 request.writeBytes(twoHyphens + boundary + crlf);
-                request.writeBytes("Content-Disposition: form-data; name=\"member_id\"" + "\"" + crlf);
+                request.writeBytes("Content-Disposition: form-data; name=\"member_id" + "\"" + crlf);
                 request.writeBytes(crlf);
                 request.writeBytes(member_id);
                 request.writeBytes(crlf);
@@ -328,7 +329,7 @@ public class InsertBookTask extends AsyncTask<String, Void, String> {
             super.onPostExecute(s);
 
             Intent intent = new Intent();
-            intent.putExtra("idForNickname",idForNickname);
+            intent.putExtra("bData",idForNickname);
             intent.setClass(context,MainActivity.class);
             context.startActivity(intent);
         }

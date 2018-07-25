@@ -21,7 +21,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="0"
-                android:text="來源"
+                android:text=" 寄件人"
                 android:textSize="24sp" />
 
             <TextView
@@ -58,7 +58,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView13"
+                android:id="@+id/showSender"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -67,7 +67,7 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/textView14"
+                android:id="@+id/showtext"
                 android:layout_width="120dp"
                 android:layout_height="50dp"
                 android:layout_marginRight="10dp"
@@ -77,7 +77,7 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/textView15"
+                android:id="@+id/showDate"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"

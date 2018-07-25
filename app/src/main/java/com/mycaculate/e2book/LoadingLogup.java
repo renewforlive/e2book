@@ -50,27 +50,27 @@ public class LoadingLogup extends AsyncTask<String,Void,String> {
 
             //上傳書名等資料
             request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"account\"" + "\"" + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"account" + "\"" + crlf);
             request.writeBytes(crlf);
             request.writeBytes(data[0]);
             request.writeBytes(crlf);
             request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"pwd\"" + "\"" + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"pwd" + "\"" + crlf);
             request.writeBytes(crlf);
             request.writeBytes(data[1]);
             request.writeBytes(crlf);
             request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"nickname\"" + "\"" + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"nickname" +"\"" + crlf);
             request.writeBytes(crlf);
             request.writeBytes(data[2]);
             request.writeBytes(crlf);
             request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"email\"" + "\"" + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"email" + "\"" + crlf);
             request.writeBytes(crlf);
             request.writeBytes(data[3]);
             request.writeBytes(crlf);
             request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"area_id\"" + "\"" + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"area_id" + "\"" + crlf);
             request.writeBytes(crlf);
             request.writeBytes(data[4]);
             request.writeBytes(crlf);
@@ -121,7 +121,7 @@ public class LoadingLogup extends AsyncTask<String,Void,String> {
             //將資料傳到主畫面
             String[] idForNickname = new String[]{String.valueOf(member_id),nickname};
             Intent intent = new Intent();
-            intent.putExtra("idForNickname",idForNickname);
+            intent.putExtra("bData",idForNickname);
             intent.setClass(context,MainActivity.class);
             context.startActivity(intent);
         }

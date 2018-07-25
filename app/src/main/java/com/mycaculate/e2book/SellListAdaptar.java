@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import static com.mycaculate.e2book.WebConnect.URI_UPDATESHELVES;
+
 public class SellListAdaptar extends BaseAdapter{
     LayoutInflater inflater;
     Context context;
@@ -72,7 +74,7 @@ public class SellListAdaptar extends BaseAdapter{
             @Override
             public void onClick(View v) {
                 UpdateShelves updateShelves = new UpdateShelves(context,member_id,showBook_id);
-                updateShelves.execute("http://renewforlive11.000webhostapp.com/test/updateshelves.php");
+                updateShelves.execute(URI_UPDATESHELVES);
             }
         });
 

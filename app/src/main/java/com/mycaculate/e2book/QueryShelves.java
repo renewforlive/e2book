@@ -17,20 +17,22 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
-public class LoadingMember extends AsyncTask<String,Void,String[]> {
+public class QueryShelves extends AsyncTask<String, Void, int[]> {
     Context context;
-    String member_id;
+    String book_id;
     String twoHyphens = "--";
     String crlf = "\r\n";
     String boundary = "*****";
+    String create_time;
 
-    public LoadingMember(Context context, String member_id) {
+
+    public QueryShelves(Context context, String book_id) {
         this.context = context;
-        this.member_id = member_id;
+        this.book_id = book_id;
     }
 
     @Override
-    protected String[] doInBackground(String... strings) {
+    protected int[] doInBackground(String... strings) {
         URL url = null;
         try {
             //連線
@@ -49,9 +51,9 @@ public class LoadingMember extends AsyncTask<String,Void,String[]> {
 
             //上傳書名等資料
             request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"member_id" + "\"" + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"book_id" + "\"" + crlf);
             request.writeBytes(crlf);
-            request.writeBytes(member_id);
+            request.writeBytes(book_id);
             request.writeBytes(crlf);
             request.writeBytes(twoHyphens + boundary + twoHyphens + crlf);
             request.flush();
@@ -68,9 +70,10 @@ public class LoadingMember extends AsyncTask<String,Void,String[]> {
 
             JSONArray arr = new JSONArray(JSONResp);
             JSONObject obj = arr.getJSONObject(0);
-            String[] member_data = new String[]{obj.getString("account"),obj.getString("email"),String.valueOf(obj.getInt("area_id"))};
-
-            return member_data;
+            int owner_id = obj.getInt("owner_id");
+            int shelves_id = obj.getInt("id");
+            int[] ownerAndShelves_id = new int[]{owner_id,shelves_id};
+            return ownerAndShelves_id;
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -81,6 +84,7 @@ public class LoadingMember extends AsyncTask<String,Void,String[]> {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         return null;
     }
 
@@ -90,7 +94,7 @@ public class LoadingMember extends AsyncTask<String,Void,String[]> {
     }
 
     @Override
-    protected void onPostExecute(String[] s) {
+    protected void onPostExecute(int[] s) {
         super.onPostExecute(s);
     }
 }

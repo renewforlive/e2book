@@ -1,21 +1,34 @@
 package com.mycaculate.e2book;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.media.Image;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+
+import static com.mycaculate.e2book.WebConnect.URI_INSERTMESSAGE;
+import static com.mycaculate.e2book.WebConnect.URI_QUERYSHELVES;
+import static com.mycaculate.e2book.WebConnect.URI_UPDATEWISHLIST;
 
 public class BuyListAdaptar extends BaseAdapter{
     LayoutInflater inflater;
     Context context;
     ArrayList<Book> arrayList;
     String member_id;
+    //AlertDialog的使用
+    AlertDialog alertDialog;
+    AlertDialog.Builder builder;
 
     public BuyListAdaptar(Context context, ArrayList<Book> arrayList, String member_id) {
         this.context = context;
@@ -64,14 +77,46 @@ public class BuyListAdaptar extends BaseAdapter{
         btn_transaction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final LayoutInflater inflater1 = LayoutInflater.from(context);
+                final View view = inflater1.inflate(R.layout.alertdialog_item,null);
+                builder = new AlertDialog.Builder(context)
+                        .setTitle("傳送訊息")
+                        .setView(view)
+                        .setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                EditText edtMessage = view.findViewById(R.id.edtMessage);
+                                String message = edtMessage.getText().toString();
+                                Toast.makeText(context,"你傳送了一個msg:" + message,Toast.LENGTH_LONG).show();
 
+                                Log.i("book_id=", String.valueOf(book_id));
+                                QueryShelves queryShelves = new QueryShelves(context, String.valueOf(book_id));
+                                try {
+                                    int[] ownerAndShelves_id = queryShelves.execute(URI_QUERYSHELVES).get();
+                                    InsertMessage insertMessage = new InsertMessage(context,member_id,String.valueOf(ownerAndShelves_id[0]),message,String.valueOf(ownerAndShelves_id[1]));
+                                    insertMessage.execute(URI_INSERTMESSAGE);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                } catch (ExecutionException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        })
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                alertDialog = builder.create();
+                alertDialog.show();
             }
         });
         btn_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 UpdateWishList updateWishList = new UpdateWishList(context, member_id,book_id);
-                updateWishList.execute("http://renewforlive11.000webhostapp.com/test/updatewishlist.php");
+                updateWishList.execute(URI_UPDATEWISHLIST);
             }
         });
 

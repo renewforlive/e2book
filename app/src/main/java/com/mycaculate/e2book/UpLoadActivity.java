@@ -13,6 +13,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -25,6 +28,8 @@ import android.widget.Toast;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static com.mycaculate.e2book.WebConnect.URI_INSERTBOOK;
 
 public class UpLoadActivity extends AppCompatActivity implements View.OnClickListener{
     EditText edtBookName,edtAuthor,edtPublisher,edtPrice, edtNotes;
@@ -276,7 +281,7 @@ public class UpLoadActivity extends AppCompatActivity implements View.OnClickLis
                             newCatalog_id = String.valueOf(catalog_id);
                             String[] new_data = new String[]{newBookName,newCatalog_id,newAuthor,newPublisher,newPrice,newNotes};
                             InsertBookTask insertBookTask = new InsertBookTask(this,new_data,picturePath,idForNickname);
-                            insertBookTask.execute("http://renewforlive11.000webhostapp.com/test/insertbook.php");
+                            insertBookTask.execute(URI_INSERTBOOK);
                         }
                     }
                 }
@@ -289,5 +294,26 @@ public class UpLoadActivity extends AppCompatActivity implements View.OnClickLis
         intent.putExtra("idForNickname",idForNickname);
         intent.setClass(UpLoadActivity.this,MainActivity.class);
         startActivity(intent);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.backtomenu,menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.backtomenu:
+                Intent intent = new Intent();
+                intent.putExtra("bData",idForNickname);
+                intent.setClass(this,MainActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.logout:
+                startActivity(new Intent(this,LoginActivity.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
