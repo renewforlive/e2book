@@ -1,5 +1,6 @@
 package com.mycaculate.e2book;
 
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.LocaleList;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +27,7 @@ public class SearchActivity extends AppCompatActivity {
     List<CodeItem> bookCatalogList, locationList;
     CodeAdapter bookCatalogAdapter, locationAdapter;
     List<BookSearch> bookSearchList;
+    BookSearchAdapter bookSearchAdapter;
     Integer catalog=0, location=0;
     String keyword="";
 
@@ -77,8 +79,8 @@ public class SearchActivity extends AppCompatActivity {
         Log.d("initView()", "Get Location");
         try
         {
-            LoadCode bookCatalog = new LoadCode(this, "Location", true);
-            locationList = bookCatalog.execute(WebConnect.URI_GET_CODE_LIST).get();
+            LoadCode location = new LoadCode(this, "Location", true);
+            locationList = location.execute(WebConnect.URI_GET_CODE_LIST).get();
         }
         catch (Exception e)
         {
@@ -97,11 +99,18 @@ public class SearchActivity extends AppCompatActivity {
 
             }
         });
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                keyword= SearchActivity.this.edtSearch.getText().toString();
+                SearchActivity.this.showView();
+            }
+        });
     }
 
     private void showView()
     {
-        Log.d("initView()", "Get BookCatalog");
+        Log.d("showView()", "Get bookSearchList");
         try
         {
             LoadBookSearch loadBookSearch = new LoadBookSearch(this, catalog, location, keyword);
@@ -123,8 +132,8 @@ public class SearchActivity extends AppCompatActivity {
             txtNotFound.setVisibility(View.VISIBLE);
             searchListView.setVisibility(View.INVISIBLE);
         }
-        bookCatalogAdapter=new CodeAdapter(this, bookCatalogList);
-        bookSpinner.setAdapter(bookCatalogAdapter);
+        bookSearchAdapter=new BookSearchAdapter(this, bookSearchList);
+        searchListView.setAdapter(bookSearchAdapter);
     }
 
 }

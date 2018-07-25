@@ -44,22 +44,27 @@ public class BookSearchAdapter extends BaseAdapter
         TextView txtPrice=v.findViewById(R.id.txtPrice);
         TextView txtNotes=v.findViewById(R.id.txtNotes);
         TextView txtOwner=v.findViewById(R.id.txtOwner);
+        TextView txtArea=v.findViewById(R.id.txtArea);
         TextView txtShelveTime=v.findViewById(R.id.txtShelveTime);
         txtCatalog.setText(bookSearch.getCatalog());
         txtBookName.setText(bookSearch.getBookName());
         txtAuthor.setText(bookSearch.getAuthor());
         txtPublisher.setText(bookSearch.getPublisher());
-        txtPrice.setText(bookSearch.getPrice());
-        txtPrice.setText(bookSearch.getAuthor());
+        if (bookSearch.getPrice()==0)
+            txtPrice.setText("");
+        else
+            txtPrice.setText(String.valueOf(bookSearch.getPrice()));
         if (bookSearch.getOwnerId()==0)
         {
             txtOwner.setText("");
+            txtArea.setText("");
             txtShelveTime.setText("");
             txtNotes.setText(bookSearch.getBookNotes());
         }
         else
         {
             txtOwner.setText(bookSearch.getOwnerName());
+            txtArea.setText(bookSearch.getOwnerArea());
             txtShelveTime.setText(bookSearch.getShelveTime());
             txtNotes.setText(bookSearch.getShelveNotes());
         }

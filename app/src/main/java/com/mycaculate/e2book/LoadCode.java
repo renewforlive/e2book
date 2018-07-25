@@ -27,7 +27,6 @@ public class LoadCode extends AsyncTask<String, Void, List<CodeItem>>
     Context mctx;
     String classification;
     ProgressDialog dialog;
-    String resultString;
     boolean includeEmpty;
 
     public LoadCode(Context context, String classification, boolean includeEmpty)
@@ -40,10 +39,10 @@ public class LoadCode extends AsyncTask<String, Void, List<CodeItem>>
 
     @Override
     protected List<CodeItem> doInBackground(String... strings) {
-        List<CodeItem> result=new ArrayList<CodeItem>();
+        String resultString;
         URL u=null;
-        JSONObject object;
-        int a, cnt=0;
+        int cnt;
+        List<CodeItem> result=new ArrayList<CodeItem>();
         try
         {
             u=new URL(strings[0]);
@@ -63,28 +62,22 @@ public class LoadCode extends AsyncTask<String, Void, List<CodeItem>>
             InputStream is=conn.getInputStream();
             byte[] b=new byte[1024];
             ByteArrayOutputStream baos=new ByteArrayOutputStream();
-            a=is.read(b);
-            Log.d("first a=",String.valueOf(a));
-            while (a>0)
+            cnt=is.read(b);
+            while (cnt>0)
             {
-                baos.write(b, 0, a);
-                a = is.read(b);
-                Log.d("a=",String.valueOf(a));
+                baos.write(b, 0, cnt);
+                cnt = is.read(b);
             }
             is.close();
             resultString =new String(baos.toByteArray());
             Log.d("LoadCode","response="+resultString);
-            object=new JSONObject(resultString);
-            if (object.isNull(resultString))
-                Log.d("LoadCode","JSONObject(response)=null");
-            else
+            JSONArray array = new JSONArray(resultString);
+            if (includeEmpty)
+                result.add(new CodeItem(classification, 0, ""));
+            for (int i = 0; i < array.length(); i++)
             {
-                JSONArray array = new JSONArray(resultString);
-                if (includeEmpty) result.add(new CodeItem(classification, 0, ""));
-                for (int i = 0; i < array.length(); i++) {
                     if (array.getJSONObject(i) != null)
                         result.add(CodeItem.convertCodeItem(array.getJSONObject(i)));
-                }
             }
         } catch (ProtocolException e) {
             e.printStackTrace();

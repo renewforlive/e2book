@@ -8,10 +8,10 @@ import org.json.JSONObject;
 import java.sql.Timestamp;
 
 public class BookSearch {
-    private int bookId, price, catalogId, shelveId, ownerId, receiverId;
+    private int bookId, price, catalogId, shelveId, ownerId, receiverId, ownerAreaId;
     private String bookName, catalog, author, publisher, bookNotes, bookTime,
             shelveNotes, shelveTime, transactionTime, dismountedTime,
-            ownerAccount, ownerName,
+            ownerAccount, ownerName, ownerArea,
             receiverAccount, receiverName;
     public static final String V_BOOK_SHELVES_BOOK_ID="book_id";
     public static final String V_BOOK_SHELVES_PRICE="price";
@@ -31,12 +31,14 @@ public class BookSearch {
     public static final String V_BOOK_SHELVES_DISMOUNTED_TIME="dismounted_time";
     public static final String V_BOOK_SHELVES_OWNER_ACCOUNT="owner_account";
     public static final String V_BOOK_SHELVES_OWNER_NAME="owner_name";
+    public static final String V_BOOK_SHELVES_OWNER_AREA_ID="owner_area_id";
+    public static final String V_BOOK_SHELVES_OWNER_AREA="owner_area";
     public static final String V_BOOK_SHELVES_RECEIVER_ACCOUNT="receiver_account";
     public static final String V_BOOK_SHELVES_RECEIVER_NAME="receiver_name";
 
     public BookSearch(int bookId, String bookName, int catalogId, String catalog,  String author, String publisher, int price, String bookNotes, String bookTime,
                       int shelveId, String shelveNotes, String shelveTime, String transactionTime, String dismountedTime,
-                      int ownerId, String ownerAccount, String ownerName,
+                      int ownerId, String ownerAccount, String ownerName, int ownerAreaId, String ownerArea,
                       int receiverId, String receiverAccount, String receiverName)
     {
         this.bookId = bookId;
@@ -56,6 +58,8 @@ public class BookSearch {
         this.ownerId = ownerId;
         this.ownerAccount = ownerAccount;
         this.ownerName = ownerName;
+        this.ownerAreaId=ownerAreaId;
+        this.ownerArea=ownerArea;
         this.receiverId = receiverId;
         this.receiverAccount = receiverAccount;
         this.receiverName = receiverName;
@@ -133,6 +137,14 @@ public class BookSearch {
         return ownerName;
     }
 
+    public int getOwnerAreaId() {
+        return ownerAreaId;
+    }
+
+    public String getOwnerArea() {
+        return ownerArea;
+    }
+
     public String getReceiverAccount() {
         return receiverAccount;
     }
@@ -146,26 +158,28 @@ public class BookSearch {
         String bookName=obj.getString(BookSearch.V_BOOK_SHELVES_BOOK_NAME);
         int catalogId=obj.getInt(BookSearch.V_BOOK_SHELVES_CATALOG_ID);
         String catalog=obj.getString(BookSearch.V_BOOK_SHELVES_CATALOG);
-        String author=obj.getString(BookSearch.V_BOOK_SHELVES_AUTHOR);
-        String publisher=obj.getString(BookSearch.V_BOOK_SHELVES_PUBLISHER);
-        int price=obj.getInt(BookSearch.V_BOOK_SHELVES_PRICE);
-        String bookNotes=obj.getString(BookSearch.V_BOOK_SHELVES_BOOK_NOTES);
+        String author=(obj.isNull(BookSearch.V_BOOK_SHELVES_AUTHOR)?"":obj.getString(BookSearch.V_BOOK_SHELVES_AUTHOR));
+        String publisher=(obj.isNull(BookSearch.V_BOOK_SHELVES_PUBLISHER)?"":obj.getString(BookSearch.V_BOOK_SHELVES_PUBLISHER));
+        int price=(obj.isNull(BookSearch.V_BOOK_SHELVES_PRICE)?0:obj.getInt(BookSearch.V_BOOK_SHELVES_PRICE));
+        String bookNotes=(obj.isNull(BookSearch.V_BOOK_SHELVES_BOOK_NOTES)?"":obj.getString(BookSearch.V_BOOK_SHELVES_BOOK_NOTES));
         String bookTime=obj.getString(BookSearch.V_BOOK_SHELVES_BOOK_TIME);
-        int shelveId=obj.getInt(BookSearch.V_BOOK_SHELVES_SHELVE_ID);
-        String shelveNotes=obj.getString(BookSearch.V_BOOK_SHELVES_SHELVE_NOTES);
-        String shelveTime=obj.getString(BookSearch.V_BOOK_SHELVES_SHELVE_TIME);
-        String transactionTime=obj.getString(BookSearch.V_BOOK_SHELVES_TRANSACTION_TIME);
-        String dismountedTime=obj.getString(BookSearch.V_BOOK_SHELVES_DISMOUNTED_TIME);
-        int ownerId=obj.getInt(BookSearch.V_BOOK_SHELVES_OWNER_ID);
-        String ownerAccount=obj.getString(BookSearch.V_BOOK_SHELVES_OWNER_ACCOUNT);
-        String ownerName=obj.getString(BookSearch.V_BOOK_SHELVES_OWNER_NAME);
-        int receiverId=obj.getInt(BookSearch.V_BOOK_SHELVES_RECEIVER_ID);
-        String receiverAccount=obj.getString(BookSearch.V_BOOK_SHELVES_RECEIVER_ACCOUNT);
-        String receiverName=obj.getString(BookSearch.V_BOOK_SHELVES_RECEIVER_NAME);
+        int shelveId=(obj.isNull(BookSearch.V_BOOK_SHELVES_SHELVE_ID)?0:obj.getInt(BookSearch.V_BOOK_SHELVES_SHELVE_ID));
+        String shelveNotes=(obj.isNull(BookSearch.V_BOOK_SHELVES_SHELVE_NOTES)?"":obj.getString(BookSearch.V_BOOK_SHELVES_SHELVE_NOTES));
+        String shelveTime=(obj.isNull(BookSearch.V_BOOK_SHELVES_SHELVE_TIME)?"":obj.getString(BookSearch.V_BOOK_SHELVES_SHELVE_TIME));
+        String transactionTime=(obj.isNull(BookSearch.V_BOOK_SHELVES_TRANSACTION_TIME)?"":obj.getString(BookSearch.V_BOOK_SHELVES_TRANSACTION_TIME));
+        String dismountedTime=(obj.isNull(BookSearch.V_BOOK_SHELVES_DISMOUNTED_TIME)?"":obj.getString(BookSearch.V_BOOK_SHELVES_DISMOUNTED_TIME));
+        int ownerId=(obj.isNull(BookSearch.V_BOOK_SHELVES_OWNER_ID)?0:obj.getInt(BookSearch.V_BOOK_SHELVES_OWNER_ID));
+        String ownerAccount=(obj.isNull(BookSearch.V_BOOK_SHELVES_OWNER_ACCOUNT)?"":obj.getString(BookSearch.V_BOOK_SHELVES_OWNER_ACCOUNT));
+        String ownerName=(obj.isNull(BookSearch.V_BOOK_SHELVES_OWNER_NAME)?"":obj.getString(BookSearch.V_BOOK_SHELVES_OWNER_NAME));
+        int ownerAreaId=(obj.isNull(BookSearch.V_BOOK_SHELVES_OWNER_AREA_ID)?0:obj.getInt(BookSearch.V_BOOK_SHELVES_OWNER_AREA_ID));
+        String ownerArea=(obj.isNull(BookSearch.V_BOOK_SHELVES_OWNER_AREA)?"":obj.getString(BookSearch.V_BOOK_SHELVES_OWNER_AREA));
+        int receiverId=(obj.isNull(BookSearch.V_BOOK_SHELVES_RECEIVER_ID)?0:obj.getInt(BookSearch.V_BOOK_SHELVES_RECEIVER_ID));
+        String receiverAccount=(obj.isNull(BookSearch.V_BOOK_SHELVES_RECEIVER_ACCOUNT)?"":obj.getString(BookSearch.V_BOOK_SHELVES_RECEIVER_ACCOUNT));
+        String receiverName=(obj.isNull(BookSearch.V_BOOK_SHELVES_RECEIVER_NAME)?"":obj.getString(BookSearch.V_BOOK_SHELVES_RECEIVER_NAME));
         Log.v("jsonObj=",obj.getString(BookSearch.V_BOOK_SHELVES_BOOK_NAME).toString());
         return new BookSearch(bookId, bookName, catalogId, catalog,  author, publisher, price, bookNotes, bookTime,
                 shelveId, shelveNotes, shelveTime, transactionTime, dismountedTime,
-                ownerId, ownerAccount, ownerName,
+                ownerId, ownerAccount, ownerName, ownerAreaId, ownerArea,
                 receiverId, receiverAccount, receiverName);
     }
 }

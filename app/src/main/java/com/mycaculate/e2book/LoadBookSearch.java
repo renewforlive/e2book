@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -42,9 +41,9 @@ public class LoadBookSearch extends AsyncTask<String, Void, List<BookSearch>>
     @Override
     protected List<BookSearch> doInBackground(String... strings) {
         String resultString;
-        List<BookSearch> result=new ArrayList<BookSearch>();
-        JSONObject object;
         URL u=null;
+        int cnt;
+        List<BookSearch> result=new ArrayList<BookSearch>();
         try
         {
             u=new URL(strings[0]);
@@ -71,23 +70,24 @@ public class LoadBookSearch extends AsyncTask<String, Void, List<BookSearch>>
             InputStream is=conn.getInputStream();
             byte[] b=new byte[1024];
             ByteArrayOutputStream baos=new ByteArrayOutputStream();
-            while (is.read(b)!=-1)
-                baos.write(b);
+            cnt=is.read(b);
+            while (cnt>0)
+            {
+                baos.write(b, 0, cnt);
+                cnt = is.read(b);
+            }
             is.close();
             resultString =new String(baos.toByteArray());
             Log.d("LoadBookSearch","response="+resultString);
-
             JSONArray array=new JSONArray(resultString);
             for (int i=0;i<array.length();i++)
             {
-                if (array.getJSONObject(i)!=null)
+                if (array.getJSONObject(i) != null)
                     result.add(BookSearch.convertBookSearch(array.getJSONObject(i)));
             }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
         } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
