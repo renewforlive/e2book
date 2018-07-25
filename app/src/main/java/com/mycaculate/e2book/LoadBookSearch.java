@@ -22,43 +22,51 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LoadCode extends AsyncTask<String, Void, List<CodeItem>>
+public class LoadBookSearch extends AsyncTask<String, Void, List<BookSearch>>
 {
-    Context mctx;
-    String classification;
-    ProgressDialog dialog;
-    boolean includeEmpty;
+    private ProgressDialog dialog;
+    private Context mctx;
+    private String keyword;
+    private int catalog, location;
 
-    public LoadCode(Context context, String classification, boolean includeEmpty)
+    public LoadBookSearch(Context mctx, int catalog, int location, String keyword)
     {
-        this.mctx=context;
-        this.classification=classification;
-        this.includeEmpty=includeEmpty;
+        this.mctx=mctx;
+        this.catalog=catalog;
+        this.location=location;
+        this.keyword=keyword;
         dialog=new ProgressDialog(this.mctx);
     }
 
     @Override
-    protected List<CodeItem> doInBackground(String... strings) {
+    protected List<BookSearch> doInBackground(String... strings) {
         String resultString;
         URL u=null;
         int cnt;
-        List<CodeItem> result=new ArrayList<CodeItem>();
+        List<BookSearch> result=new ArrayList<BookSearch>();
         try
         {
             u=new URL(strings[0]);
-            Log.d("LoadCode", "doInBackground():u="+u);
+            Log.d("LoadBookSearch", "doInBackground():u="+u);
             HttpURLConnection conn=(HttpURLConnection)u.openConnection();
             conn.setRequestMethod("POST");
             conn.setDoOutput(true);
             conn.setDoInput(true);
-            String searchString="classification="+this.classification;
+            String searchString="";
+            if (this.catalog!=0)
+                searchString=searchString.concat("catalog="+String.valueOf(this.catalog));
+            if (this.location!=0)
+                searchString=searchString.concat((searchString.length()>0?"&":"")+"location="+String.valueOf(this.location));
+            if (this.keyword.length()>0)
+                searchString=searchString.concat((searchString.length()>0?"&":"")+"keyword="+keyword);
+            Log.d("LoadBookSearch", "searchString="+searchString);
             OutputStream os=conn.getOutputStream();
             BufferedWriter writer=new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
             writer.write(searchString);
             writer.flush();
             writer.close();
             os.close();
-            Log.d("LoadCode", "doInBackground():Post:"+searchString);
+            Log.d("LoadBookSearch", "doInBackground():Post:"+searchString);
             InputStream is=conn.getInputStream();
             byte[] b=new byte[1024];
             ByteArrayOutputStream baos=new ByteArrayOutputStream();
@@ -70,14 +78,12 @@ public class LoadCode extends AsyncTask<String, Void, List<CodeItem>>
             }
             is.close();
             resultString =new String(baos.toByteArray());
-            Log.d("LoadCode","response="+resultString);
-            JSONArray array = new JSONArray(resultString);
-            if (includeEmpty)
-                result.add(new CodeItem(classification, 0, ""));
-            for (int i = 0; i < array.length(); i++)
+            Log.d("LoadBookSearch","response="+resultString);
+            JSONArray array=new JSONArray(resultString);
+            for (int i=0;i<array.length();i++)
             {
-                    if (array.getJSONObject(i) != null)
-                        result.add(CodeItem.convertCodeItem(array.getJSONObject(i)));
+                if (array.getJSONObject(i) != null)
+                    result.add(BookSearch.convertBookSearch(array.getJSONObject(i)));
             }
         } catch (ProtocolException e) {
             e.printStackTrace();
@@ -87,10 +93,8 @@ public class LoadCode extends AsyncTask<String, Void, List<CodeItem>>
             e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
-        }
-        return result;
+        } return result;
     }
-
 
     @Override
     protected void onPreExecute() {
@@ -100,16 +104,9 @@ public class LoadCode extends AsyncTask<String, Void, List<CodeItem>>
     }
 
     @Override
-    protected void onPostExecute(List<CodeItem> list) {
-        super.onPostExecute(list);
+    protected void onPostExecute(List<BookSearch> bookSearches) {
+        super.onPostExecute(bookSearches);
         dialog.dismiss();
     }
 
-    public static CodeItem convertCodeItem(JSONObject obj) throws JSONException {
-        String classification=obj.getString("classification");
-        int code = obj.getInt("picture");
-        String description = obj.getString("description");
-        Log.v("jsonObj=",obj.getString("description").toString());
-        return new CodeItem(classification, code, description);
-    }
 }
