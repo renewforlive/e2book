@@ -18,6 +18,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 
+<<<<<<< HEAD
 public class LoadingMessage extends AsyncTask<String,Void,ArrayList<Message>> {
     Context context;
     String member_id;
@@ -33,6 +34,42 @@ public class LoadingMessage extends AsyncTask<String,Void,ArrayList<Message>> {
     @Override
     protected ArrayList<Message> doInBackground(String... strings) {
         ArrayList<Message> result = new ArrayList<Message>();
+=======
+public class LoadingMessage extends AsyncTask<String, Void, ArrayList<Book>> {
+    Context context;
+    String twoHyphens = "--";
+    String crlf = "\r\n";
+    String boundary = "*****";
+    String from_id;
+    String attn_id;
+    String shelves_id;
+    String message;
+    String create_time;
+
+    public Context getContext() {
+        return context;
+    }
+
+    public String getFrom_id() {
+        return from_id;
+    }
+
+    public String getAttn_id() {
+        return attn_id;
+    }
+
+    public String getShelves_id() {
+        return shelves_id;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    @Override
+    protected ArrayList<Book> doInBackground(String... strings) {
+        ArrayList<Book> result = new ArrayList<Book>();
+>>>>>>> origin/jimmy20180725
         URL url = null;
         try {
             //連線
@@ -51,10 +88,36 @@ public class LoadingMessage extends AsyncTask<String,Void,ArrayList<Message>> {
 
             //上傳書名等資料
             request.writeBytes(twoHyphens + boundary + crlf);
+<<<<<<< HEAD
             request.writeBytes("Content-Disposition: form-data; name=\"member_id" + "\"" + crlf);
             request.writeBytes(crlf);
             request.writeBytes(member_id);
             request.writeBytes(crlf);
+=======
+            request.writeBytes("Content-Disposition: form-data; name=\"from_id\"" + "\"" + crlf);
+            request.writeBytes(crlf);
+            request.writeBytes(from_id);
+            request.writeBytes(crlf);
+
+            request.writeBytes(twoHyphens + boundary + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"attn_id\"" + "\"" + crlf);
+            request.writeBytes(crlf);
+            request.writeBytes(attn_id);
+            request.writeBytes(crlf);
+
+            request.writeBytes(twoHyphens + boundary + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"shelves_id\"" + "\"" + crlf);
+            request.writeBytes(crlf);
+            request.writeBytes(shelves_id);
+            request.writeBytes(crlf);
+
+            request.writeBytes(twoHyphens + boundary + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"message\"" + "\"" + crlf);
+            request.writeBytes(crlf);
+            request.writeBytes(message);
+            request.writeBytes(crlf);
+
+>>>>>>> origin/jimmy20180725
             request.writeBytes(twoHyphens + boundary + twoHyphens + crlf);
             request.flush();
             request.close();
@@ -66,6 +129,7 @@ public class LoadingMessage extends AsyncTask<String,Void,ArrayList<Message>> {
             while (is.read(b) != -1)
                 baos.write(b);
             String JSONResp = new String(baos.toByteArray());
+<<<<<<< HEAD
             Log.i("資料回傳成功",JSONResp );
             if(JSONResp.indexOf("[]") != -1){
                 result = null;
@@ -79,6 +143,13 @@ public class LoadingMessage extends AsyncTask<String,Void,ArrayList<Message>> {
                     }
                 }
             }
+=======
+
+            Log.i("資料回傳成功",JSONResp );
+
+            JSONArray arr = new JSONArray(JSONResp);
+
+>>>>>>> origin/jimmy20180725
             return result;
 
         } catch (MalformedURLException e) {
@@ -93,6 +164,7 @@ public class LoadingMessage extends AsyncTask<String,Void,ArrayList<Message>> {
 
         return null;
     }
+<<<<<<< HEAD
     private Message convertMessage(JSONObject obj) throws JSONException {
 
         String msg = obj.getString("message");
@@ -106,6 +178,9 @@ public class LoadingMessage extends AsyncTask<String,Void,ArrayList<Message>> {
 
         return new Message(msg, sender, recipient,shelves_id, create_time);
     }
+=======
+
+>>>>>>> origin/jimmy20180725
 
     @Override
     protected void onPreExecute() {
@@ -113,7 +188,12 @@ public class LoadingMessage extends AsyncTask<String,Void,ArrayList<Message>> {
     }
 
     @Override
+<<<<<<< HEAD
     protected void onPostExecute(ArrayList<Message> arrayList) {
         super.onPostExecute(arrayList);
+=======
+    protected void onPostExecute(ArrayList<Book> books) {
+        super.onPostExecute(books);
+>>>>>>> origin/jimmy20180725
     }
 }

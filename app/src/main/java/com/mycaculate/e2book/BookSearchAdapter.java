@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.List;
@@ -37,6 +38,8 @@ public class BookSearchAdapter extends BaseAdapter
     public View getView(int position, View convertView, ViewGroup parent) {
         View v=layoutInflater.inflate(R.layout.booksearch_item, null);
         BookSearch bookSearch=(BookSearch) getItem(position);
+        final int BookId=bookSearch.getBookId();
+        final int ShelveId=bookSearch.getShelveId();
         TextView txtCatalog=v.findViewById(R.id.txtCatalog);
         TextView txtBookName=v.findViewById(R.id.txtBookName);
         TextView txtAuthor=v.findViewById(R.id.txtAuthor);
@@ -46,6 +49,7 @@ public class BookSearchAdapter extends BaseAdapter
         TextView txtOwner=v.findViewById(R.id.txtOwner);
         TextView txtArea=v.findViewById(R.id.txtArea);
         TextView txtShelveTime=v.findViewById(R.id.txtShelveTime);
+        Button btnAddWishList=v.findViewById(R.id.btnAddWishList);
         txtCatalog.setText(bookSearch.getCatalog());
         txtBookName.setText(bookSearch.getBookName());
         txtAuthor.setText(bookSearch.getAuthor());
@@ -60,6 +64,8 @@ public class BookSearchAdapter extends BaseAdapter
             txtArea.setText("");
             txtShelveTime.setText("");
             txtNotes.setText(bookSearch.getBookNotes());
+            btnAddWishList.setEnabled(false);
+            btnAddWishList.setText("無人提供");
         }
         else
         {
@@ -67,7 +73,14 @@ public class BookSearchAdapter extends BaseAdapter
             txtArea.setText(bookSearch.getOwnerArea());
             txtShelveTime.setText(bookSearch.getShelveTime());
             txtNotes.setText(bookSearch.getShelveNotes());
+            btnAddWishList.setEnabled(true);
         }
+        btnAddWishList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                AddWishList addWishList=new AddWishList(v.getContext(), BookId, ShelveId, )
+            }
+        });
         return v;
     }
 }
