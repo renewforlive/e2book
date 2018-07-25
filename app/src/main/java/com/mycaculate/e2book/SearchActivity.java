@@ -23,6 +23,7 @@ public class SearchActivity extends AppCompatActivity {
     EditText edtSearch;
     TextView txtNotFound;
     ImageButton btnSearch;
+    Button btnAddWishList;
     ListView searchListView;
     List<CodeItem> bookCatalogList, locationList;
     CodeAdapter bookCatalogAdapter, locationAdapter;
