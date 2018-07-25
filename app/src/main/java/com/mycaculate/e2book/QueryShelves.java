@@ -17,7 +17,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
-public class QueryShelves extends AsyncTask<String, Void, int[]> {
+public class QueryShelves extends AsyncTask<String, Void, String[]> {
     Context context;
     String book_id;
     String twoHyphens = "--";
@@ -32,7 +32,7 @@ public class QueryShelves extends AsyncTask<String, Void, int[]> {
     }
 
     @Override
-    protected int[] doInBackground(String... strings) {
+    protected String[] doInBackground(String... strings) {
         URL url = null;
         try {
             //連線
@@ -72,8 +72,10 @@ public class QueryShelves extends AsyncTask<String, Void, int[]> {
             JSONObject obj = arr.getJSONObject(0);
             int owner_id = obj.getInt("owner_id");
             int shelves_id = obj.getInt("id");
-            int[] ownerAndShelves_id = new int[]{owner_id,shelves_id};
-            return ownerAndShelves_id;
+            String nickname = obj.getString("nickname");
+
+            String[] ownerAndShelves_idAndNickname = new String[]{String.valueOf(owner_id),String.valueOf(shelves_id),nickname};
+            return ownerAndShelves_idAndNickname;
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -94,7 +96,7 @@ public class QueryShelves extends AsyncTask<String, Void, int[]> {
     }
 
     @Override
-    protected void onPostExecute(int[] s) {
+    protected void onPostExecute(String[] s) {
         super.onPostExecute(s);
     }
 }

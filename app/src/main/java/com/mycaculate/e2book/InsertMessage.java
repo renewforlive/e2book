@@ -20,7 +20,7 @@ public class InsertMessage extends AsyncTask<String, Void, String> {
     String crlf = "\r\n";
     String boundary = "*****";
 
-    public InsertMessage(Context context, String sender_id,String recipient_id, String text, String shelves_id) {
+    public InsertMessage(Context context, String sender_id, String recipient_id, String text, String shelves_id) {
         this.context = context;
         this.sender_id = sender_id;
         this.recipient_id = recipient_id;

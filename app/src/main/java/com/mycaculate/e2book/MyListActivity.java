@@ -22,10 +22,10 @@ public class MyListActivity extends AppCompatActivity implements View.OnClickLis
     TextView showUsername,showEmail,showLocation;
     ListView mylistView;
     ImageButton btn_buylist,btn_selllist;
-    //bData
+    //bData傳送
     Bundle bData;
     String[] idForNickname;
-    //
+    //會員資料，帳戶、郵件、地區
     String[] member_data;
     //兩個arraylist為買和賣
     ArrayList<Book> buyarraylist;
@@ -43,11 +43,13 @@ public class MyListActivity extends AppCompatActivity implements View.OnClickLis
         bData = getIntent().getExtras();
         if (bData != null){
             idForNickname = bData.getStringArray("bData");
+            //取得會員資料
             LoadingMember loadingMember = new LoadingMember(this, idForNickname[0]);
             try {
                 member_data = loadingMember.execute(URI_LOADINGMEMBER).get();
                 showUsername.setText(member_data[0]);
                 showEmail.setText(member_data[1]);
+                //地區id換中文
                 changelocate();
 
             } catch (InterruptedException e) {
@@ -154,6 +156,7 @@ public class MyListActivity extends AppCompatActivity implements View.OnClickLis
         mylistView.setAdapter(buyListAdaptar);
     }
     public void selllist(){
+        //透過會員ID將該會員上架的書籍下載
         LoadingShelves loadingShelves = new LoadingShelves(this,idForNickname[0]);
         try {
             sellarraylist = loadingShelves.execute(URI_LOADINGSHELVES).get();

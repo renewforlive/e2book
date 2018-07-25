@@ -1,6 +1,8 @@
 package com.mycaculate.e2book;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -18,6 +20,8 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import static com.mycaculate.e2book.WebConnect.URI_IMAGES;
+
 public class LoadingShelves extends AsyncTask<String, Void, ArrayList<Book>> {
     Context context;
     String member_id;
@@ -25,6 +29,7 @@ public class LoadingShelves extends AsyncTask<String, Void, ArrayList<Book>> {
     String crlf = "\r\n";
     String boundary = "*****";
     String create_time;
+    Bitmap bitmap;
 
     public LoadingShelves(Context context, String member_id) {
         this.context = context;
@@ -93,6 +98,14 @@ public class LoadingShelves extends AsyncTask<String, Void, ArrayList<Book>> {
     }
     private Book convertBook(JSONObject obj) throws JSONException {
 
+        String filename = obj.getString("filename");
+
+        if(filename != null) {
+            bitmap = LoadImage(URI_IMAGES + filename);
+        }else{
+            bitmap = LoadImage(URI_IMAGES + "no_pictures.png");
+        }
+
         String book_name = obj.getString("book_name");
         String catalog_id = String.valueOf(obj.getInt("catalog_id"));
         String author = obj.getString("author");
@@ -102,9 +115,32 @@ public class LoadingShelves extends AsyncTask<String, Void, ArrayList<Book>> {
 
         Log.v("jsonObj=",obj.getString("id").toString());
 
-        return new Book(null, book_id, book_name, catalog_id, author, publisher, create_time);
+        return new Book(bitmap, book_id, book_name, catalog_id, author, publisher,null, create_time);
     }
+    private Bitmap LoadImage(String imageUrl){
+        Bitmap bitmap = null;
+        try {
+            URL url = new URL(imageUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
+
+            conn.setRequestMethod("GET");
+            conn.connect();
+
+            if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                InputStream inputStream = conn.getInputStream();
+
+                bitmap = BitmapFactory.decodeStream(inputStream);
+                inputStream.close();
+                return bitmap;
+            }
+        } catch (MalformedURLException e1) {
+            e1.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
     @Override
     protected void onPreExecute() {
         super.onPreExecute();

@@ -17,12 +17,14 @@
 
             <TextView
                 android:id="@+id/textView12"
-                android:layout_width="100dp"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="0"
-                android:text=" 寄件人"
-                android:textSize="24sp" />
+                android:background="@color/blookerStart"
+                android:text="寄件人"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/textView10"
@@ -31,8 +33,10 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_weight="0"
+                android:background="@color/blookerStart"
                 android:text="內容"
-                android:textSize="24sp" />
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/textView11"
@@ -40,14 +44,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_weight="0"
+                android:background="@color/blookerStart"
                 android:text="日期"
-                android:textSize="24sp" />
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
 
             <ImageButton
-                android:id="@+id/imageButton6"
+                android:id="@+id/btn_deletemsg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="0"
                 android:background="@android:drawable/ic_menu_delete" />
         </LinearLayout>
@@ -59,12 +65,14 @@
 
             <TextView
                 android:id="@+id/showSender"
-                android:layout_width="100dp"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_weight="0"
                 android:text="Andy"
-                android:textSize="20sp" />
+                android:textAlignment="center"
+                android:textColor="@android:color/background_dark"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/showtext"
@@ -74,16 +82,25 @@
                 android:layout_marginTop="10dp"
                 android:layout_weight="0"
                 android:text="對這本書很感興趣..."
-                android:textSize="20sp" />
+                android:textColor="@android:color/background_dark"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/showDate"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_weight="1"
+                android:layout_weight="0"
                 android:text="1991-11-10"
-                android:textSize="20sp" />
+                android:textColor="@android:color/background_dark"
+                android:textSize="14sp" />
+
+            <ImageButton
+                android:id="@+id/btn_reply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:background="@mipmap/reply" />
         </LinearLayout>
     </LinearLayout>
 
