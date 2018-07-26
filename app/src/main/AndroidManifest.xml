@@ -31,7 +31,8 @@
         <activity android:name=".MyListActivity" />
         <activity android:name=".UpLoadActivity" />
         <activity android:name=".CatalogDetailActivity" />
-        <activity android:name=".AddMessage"></activity>
+        <activity android:name=".AddMessage" />
+        <activity android:name=".ReadMessage"></activity>
     </application>
 
 </manifest>

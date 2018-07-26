@@ -1,8 +1,12 @@
 package com.mycaculate.e2book;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,7 +22,8 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class LoadingMessage extends AsyncTask<String, Void, ArrayList<Book>> {
+public class CreateMessage extends AsyncTask<String, Void,ArrayList<Message>> {
+    private ProgressDialog dialog;
     Context context;
     String twoHyphens = "--";
     String crlf = "\r\n";
@@ -28,30 +33,22 @@ public class LoadingMessage extends AsyncTask<String, Void, ArrayList<Book>> {
     String shelves_id;
     String message;
     String create_time;
+    String[] response;
 
-    public Context getContext() {
-        return context;
-    }
 
-    public String getFrom_id() {
-        return from_id;
-    }
-
-    public String getAttn_id() {
-        return attn_id;
-    }
-
-    public String getShelves_id() {
-        return shelves_id;
-    }
-
-    public String getMessage() {
-        return message;
+    public CreateMessage(Context context, String from_id, String attn_id, String shelves_id, String message, String create_time) {
+        this.context = context;
+        this.from_id = from_id;
+        this.attn_id = attn_id;
+        this.shelves_id = shelves_id;
+        this.message = message;
+        this.create_time = create_time;
+        dialog = new ProgressDialog(context);
     }
 
     @Override
-    protected ArrayList<Book> doInBackground(String... strings) {
-        ArrayList<Book> result = new ArrayList<Book>();
+    protected ArrayList<Message> doInBackground(String... strings) {
+        ArrayList<Message> response = new ArrayList();
         URL url = null;
         try {
             //連線
@@ -68,27 +65,27 @@ public class LoadingMessage extends AsyncTask<String, Void, ArrayList<Book>> {
             //串流物件
             DataOutputStream request = new DataOutputStream(conn.getOutputStream());
 
-            //上傳書名等資料
+            //上傳訊息等資料
             request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"from_id\"" + "\"" + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"from_id\""  + crlf);
             request.writeBytes(crlf);
             request.writeBytes(from_id);
             request.writeBytes(crlf);
 
             request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"attn_id\"" + "\"" + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"attn_id\""  + crlf);
             request.writeBytes(crlf);
             request.writeBytes(attn_id);
             request.writeBytes(crlf);
 
             request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"shelves_id\"" + "\"" + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"shelves_id\"" + crlf);
             request.writeBytes(crlf);
             request.writeBytes(shelves_id);
             request.writeBytes(crlf);
 
             request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"message\"" + "\"" + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"message\""  + crlf);
             request.writeBytes(crlf);
             request.writeBytes(message);
             request.writeBytes(crlf);
@@ -103,13 +100,15 @@ public class LoadingMessage extends AsyncTask<String, Void, ArrayList<Book>> {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             while (is.read(b) != -1)
                 baos.write(b);
-            String JSONResp = new String(baos.toByteArray());
-
-            Log.i("資料回傳成功",JSONResp );
-
-            JSONArray arr = new JSONArray(JSONResp);
-
-            return result;
+            String  resultString= new String(baos.toByteArray());
+            Log.i("resultString=", resultString);
+            JSONArray array = new JSONArray(resultString);
+            for (int i = 0; i < array.length(); i++)
+            {
+                if (array.getJSONObject(i) != null)
+                    response.add(ReadMessageData.convertMessage(array.getJSONObject(i)));
+            }
+            return response;
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -131,7 +130,14 @@ public class LoadingMessage extends AsyncTask<String, Void, ArrayList<Book>> {
     }
 
     @Override
-    protected void onPostExecute(ArrayList<Book> books) {
-        super.onPostExecute(books);
+    protected void onPostExecute(ArrayList<Message> messages) {
+        super.onPostExecute(messages);
+        int isSuccess= 0;
+//        isSuccess = books.indexOf("pass Success");
+        if(isSuccess != -1) Toast.makeText(context,"成功傳遞訊息",Toast.LENGTH_LONG).show();
+        Intent i = new Intent(context, MainActivity.class);
+        context.startActivity(i);
     }
+
+
 }

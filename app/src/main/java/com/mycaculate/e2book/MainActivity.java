@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -13,6 +14,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView showNickname;
     Bundle bData;
     String[] idForNickname;
+    Button btn_message,btn_readMe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_mylist = findViewById(R.id.btn_mylist);
         btn_upload = findViewById(R.id.btn_upload);
         showNickname = findViewById(R.id.showNickname);
+        btn_message=findViewById(R.id.message);
+        btn_readMe=findViewById(R.id.btn_readMe);
     }
     //按鈕添加監聽器
     private void initButton(){
@@ -48,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_search.setOnClickListener(this);
         btn_mylist.setOnClickListener(this);
         btn_upload.setOnClickListener(this);
+        btn_message.setOnClickListener(this);
+        btn_readMe.setOnClickListener(this);
     }
     @Override
     public void onClick(View v) {
@@ -80,6 +86,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 intent.putExtra("bData",idForNickname);
                 startActivity(intent.setClass(MainActivity.this,UpLoadActivity.class));
                 break;
+            case R.id.message:
+
+                intent.putExtra("bData",idForNickname);
+                startActivity(intent.setClass(MainActivity.this,AddMessage.class));
+            case R.id.btn_readMe:
+
+                intent.putExtra("bData",idForNickname);
+                startActivity(intent.setClass(MainActivity.this,ReadMessage.class));
         }
     }
 }
