@@ -13,19 +13,19 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
-public class TransactionShelves extends AsyncTask<String, Void, String> {
-
+public class TransactionWishlist extends AsyncTask<String, Void, String> {
     Context context;
     String book_id;
-    String receiver_id;
+    String focus_id;
     String twoHyphens = "--";
     String crlf = "\r\n";
     String boundary = "*****";
 
-    public TransactionShelves(Context context,String book_id, int receiver_id) {
+
+    public TransactionWishlist(Context context, String book_id) {
         this.context = context;
-        this.book_id = book_id;
-        this.receiver_id = String.valueOf(receiver_id);
+        this.book_id =  book_id;
+        this.focus_id = focus_id;
     }
 
     @Override
@@ -51,11 +51,6 @@ public class TransactionShelves extends AsyncTask<String, Void, String> {
             request.writeBytes("Content-Disposition: form-data; name=\"book_id" + "\"" + crlf);
             request.writeBytes(crlf);
             request.writeBytes(book_id);
-            request.writeBytes(crlf);
-            request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"receiver_id" + "\"" + crlf);
-            request.writeBytes(crlf);
-            request.writeBytes(receiver_id);
             request.writeBytes(crlf);
 
             request.writeBytes(twoHyphens + boundary + twoHyphens + crlf);

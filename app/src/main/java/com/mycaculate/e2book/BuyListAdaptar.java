@@ -3,8 +3,6 @@ package com.mycaculate.e2book;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.media.Image;
-import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +19,7 @@ import java.util.concurrent.ExecutionException;
 
 import static com.mycaculate.e2book.WebConnect.URI_INSERTMESSAGE;
 import static com.mycaculate.e2book.WebConnect.URI_QUERYSHELVES;
-import static com.mycaculate.e2book.WebConnect.URI_TRANSACTIONSHELVES;
+import static com.mycaculate.e2book.WebConnect.URI_TRANSACTIONWISHLIST;
 import static com.mycaculate.e2book.WebConnect.URI_UPDATEWISHLIST;
 
 public class BuyListAdaptar extends BaseAdapter{
@@ -136,8 +134,8 @@ public class BuyListAdaptar extends BaseAdapter{
         btn_transaction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TransactionShelves transactionShelves = new TransactionShelves(context, String.valueOf(book_id), member_id);
-                transactionShelves.execute(URI_TRANSACTIONSHELVES);
+                TransactionWishlist transactionWishlist = new TransactionWishlist(context, String.valueOf(book_id));
+                transactionWishlist.execute(URI_TRANSACTIONWISHLIST);
                 btn_sendmsg.setVisibility(View.INVISIBLE);
                 btn_transaction.setVisibility(View.INVISIBLE);
                 btn_delete.setVisibility(View.INVISIBLE);

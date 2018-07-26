@@ -19,7 +19,6 @@ public class CatalogListAdaptar extends BaseAdapter{
     Context context;
     ArrayList<Book> arrayList;
     String[] idForNickname;
-    int book_id;
 
     public CatalogListAdaptar(Context context, ArrayList<Book> arrayList, String[] idForNickname) {
         this.context = context;
@@ -72,7 +71,7 @@ public class CatalogListAdaptar extends BaseAdapter{
         showCatalog.setText(catalog_name);
         showPublisher.setText(book.getPublisher());
         showAuthor.setText(book.getAuthor());
-        book_id = book.getBook_id();
+        final int book_id = book.getBook_id();
 
         //點擊加入書架
         btn_mywish.setOnClickListener(new View.OnClickListener() {

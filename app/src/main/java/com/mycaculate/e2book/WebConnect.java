@@ -20,6 +20,8 @@ public class WebConnect {
     public static final String URI_INSERTMESSAGE = WEBCONNECT_PATH + "insertmessage.php";
     public static final String URI_UPDATEWISHLIST = WEBCONNECT_PATH + "updatewishlist.php";
     public static final String URI_LOADINGMESSAGE = WEBCONNECT_PATH + "loadingmessage.php";
+    public static final String URI_TRANSACTIONWISHLIST = WEBCONNECT_PATH + "transactionwishlist.php";
+    public static final String URI_QUERYWISHLIST = WEBCONNECT_PATH + "querywishlist.php";
     public static final String URI_TRANSACTIONSHELVES = WEBCONNECT_PATH + "transactionshelves.php";
 
     public static final String URI_BOOKSEARCH_LIST = WEBCONNECT_PATH + "booksearchlist.php";

@@ -4,6 +4,10 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -12,24 +16,24 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.ArrayList;
 
-public class TransactionShelves extends AsyncTask<String, Void, String> {
 
+public class QueryWishlist extends AsyncTask<String, Void, ArrayList<Receipt>> {
     Context context;
-    String book_id;
-    String receiver_id;
+    String member_id;
     String twoHyphens = "--";
     String crlf = "\r\n";
     String boundary = "*****";
 
-    public TransactionShelves(Context context,String book_id, int receiver_id) {
+    public QueryWishlist(Context context, String member_id) {
         this.context = context;
-        this.book_id = book_id;
-        this.receiver_id = String.valueOf(receiver_id);
+        this.member_id = member_id;
     }
 
     @Override
-    protected String doInBackground(String... strings) {
+    protected ArrayList<Receipt> doInBackground(String... strings) {
+        ArrayList<Receipt> result = new ArrayList<Receipt>();
         URL url = null;
         try {
             //連線
@@ -48,16 +52,10 @@ public class TransactionShelves extends AsyncTask<String, Void, String> {
 
             //上傳書名等資料
             request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"book_id" + "\"" + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"member_id" + "\"" + crlf);
             request.writeBytes(crlf);
-            request.writeBytes(book_id);
+            request.writeBytes(member_id);
             request.writeBytes(crlf);
-            request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"receiver_id" + "\"" + crlf);
-            request.writeBytes(crlf);
-            request.writeBytes(receiver_id);
-            request.writeBytes(crlf);
-
             request.writeBytes(twoHyphens + boundary + twoHyphens + crlf);
             request.flush();
             request.close();
@@ -68,10 +66,17 @@ public class TransactionShelves extends AsyncTask<String, Void, String> {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             while (is.read(b) != -1)
                 baos.write(b);
-            String response = new String(baos.toByteArray());
-            Log.i("資料回傳成功",response );
+            String JSONResp = new String(baos.toByteArray());
+            Log.i("資料回傳成功",JSONResp );
 
-            return response;
+            JSONArray array = new JSONArray(JSONResp);
+            for (int i = 0; i < array.length(); i++) {
+                if (array.getJSONObject(i) != null) {
+                    result.add(convertReceipt(array.getJSONObject(i)));
+                    Log.v("data=", array.getJSONObject(i).toString());
+                }
+            }
+            return result;
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -79,9 +84,21 @@ public class TransactionShelves extends AsyncTask<String, Void, String> {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
         return null;
+    }
+    private Receipt convertReceipt(JSONObject obj) throws JSONException {
+
+        int sender_id = obj.getInt("owner_id");
+        String sender_nickname = obj.getString("nickname");
+
+
+        Log.v("jsonObj=",obj.getString("owner_id").toString());
+
+        return new Receipt(sender_id, sender_nickname);
     }
 
     @Override
@@ -90,7 +107,7 @@ public class TransactionShelves extends AsyncTask<String, Void, String> {
     }
 
     @Override
-    protected void onPostExecute(String s) {
+    protected void onPostExecute(ArrayList<Receipt> s) {
         super.onPostExecute(s);
     }
 }

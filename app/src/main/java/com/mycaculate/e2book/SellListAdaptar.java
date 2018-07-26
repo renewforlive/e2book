@@ -1,17 +1,25 @@
 package com.mycaculate.e2book;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
+import static com.mycaculate.e2book.WebConnect.URI_QUERYWISHLIST;
 import static com.mycaculate.e2book.WebConnect.URI_UPDATESHELVES;
 
 public class SellListAdaptar extends BaseAdapter{
@@ -19,11 +27,18 @@ public class SellListAdaptar extends BaseAdapter{
     Context context;
     ArrayList<Book> arrayList;
     String member_id;
+    //加入RadioButton 的 dialog
+    ArrayList<Receipt> receiptList;
+    Receipt receipt;
+    //建一個dialog
+    AlertDialog alertDialog;
+    AlertDialog.Builder builder;
 
     public SellListAdaptar(Context context, ArrayList<Book> arrayList,String member_id) {
         this.context = context;
         this.arrayList = arrayList;
         this.member_id = member_id;
+        receiptList = new ArrayList<Receipt>();
         inflater = LayoutInflater.from(context);
     }
 
@@ -79,7 +94,34 @@ public class SellListAdaptar extends BaseAdapter{
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                QueryWishlist queryWishlist = new QueryWishlist(context,member_id);
+                try {
+                    receiptList = queryWishlist.execute(URI_QUERYWISHLIST).get();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
 
+                LayoutInflater inflater = LayoutInflater.from(context);
+                View view = inflater.inflate(R.layout.wishlist_listview_item,null);
+
+                ListView listView = view.findViewById(R.id.transaction_listview);
+                Log.i("receiptList=",String.valueOf(receiptList.size()));
+                TransactionListViewAdapter transactionListViewAdapter = new TransactionListViewAdapter(context,receiptList,String.valueOf(showBook_id));
+                listView.setAdapter(transactionListViewAdapter);
+
+                builder = new AlertDialog.Builder(context);
+                builder.setTitle("對這本書感興趣的人")
+                        .setView(view)
+                        .setPositiveButton("確定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                alertDialog = builder.create();
+                alertDialog.show();
             }
         });
         btn_nosell.setOnClickListener(new View.OnClickListener() {
@@ -130,4 +172,6 @@ public class SellListAdaptar extends BaseAdapter{
         }
         return catalog_name;
     }
+
+
 }
