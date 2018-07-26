@@ -13,9 +13,11 @@ import java.util.List;
 public class BookSearchAdapter extends BaseAdapter
 {
     private LayoutInflater layoutInflater;
+    String ownerId;
     List<BookSearch> bookSearchList;
-    public BookSearchAdapter(Context mctx, List<BookSearch> bookSearchList) {
+    public BookSearchAdapter(Context mctx, String[] idForNickname, List<BookSearch> bookSearchList) {
         this.layoutInflater = (LayoutInflater)mctx.getSystemService(mctx.LAYOUT_INFLATER_SERVICE);
+        this.ownerId=ownerId;
         this.bookSearchList = bookSearchList;
     }
 
@@ -38,8 +40,9 @@ public class BookSearchAdapter extends BaseAdapter
     public View getView(int position, View convertView, ViewGroup parent) {
         View v=layoutInflater.inflate(R.layout.booksearch_item, null);
         BookSearch bookSearch=(BookSearch) getItem(position);
-        final int BookId=bookSearch.getBookId();
-        final int ShelveId=bookSearch.getShelveId();
+        final int fBookId=bookSearch.getBookId();
+        final int fShelveId=bookSearch.getShelveId();
+        final int fOwnerId=bookSearch.getOwnerId();
         TextView txtCatalog=v.findViewById(R.id.txtCatalog);
         TextView txtBookName=v.findViewById(R.id.txtBookName);
         TextView txtAuthor=v.findViewById(R.id.txtAuthor);
@@ -78,7 +81,7 @@ public class BookSearchAdapter extends BaseAdapter
         btnAddWishList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                AddWishList addWishList=new AddWishList(v.getContext(), BookId, ShelveId, )
+                AddWishList addWishList=new AddWishList(v.getContext(), fOwnerId, fBookId, fShelveId);
             }
         });
         return v;

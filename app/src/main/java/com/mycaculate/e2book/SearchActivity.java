@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
+    Bundle bData;
+    String[] idForNickname;
     Spinner bookSpinner, locateSpinner;
     EditText edtSearch;
     TextView txtNotFound;
@@ -25,12 +27,19 @@ public class SearchActivity extends AppCompatActivity {
     List<CodeItem> bookCatalogList, locationList;
     CodeAdapter bookCatalogAdapter, locationAdapter;
     List<Book> bookList=null;
+    BookSearchAdapter bookSearchAdapter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        bData = this.getIntent().getExtras();
+        if (bData !=null)
+        {
+            idForNickname = bData.getStringArray("bData");
+        }
         Log.d("SearchActivity", "onCreate():Begin");
         initView();
         Log.d("SearchActivity", "onCreate():Pass initView()");
@@ -89,8 +98,8 @@ public class SearchActivity extends AppCompatActivity {
             txtNotFound.setVisibility(View.VISIBLE);
             searchListView.setVisibility(View.INVISIBLE);
         }
-        bookCatalogAdapter=new CodeAdapter(this, bookCatalogList);
-        bookSpinner.setAdapter(bookCatalogAdapter);
+        bookSearchAdapter=new BookSearchAdapter(this, idForNickname, bookList);
+        bookSpinner.setAdapter(bookSearchAdapter);
     }
 
 }
