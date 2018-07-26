@@ -4,7 +4,11 @@ public class WebConnect {
 
     //    public static final String WEBCONNECT_PATH="http://172.19.107.21/O2BookPHP/";
     public static final String WEBCONNECT_PATH = "http://o2book.kevintw.idv.tw/";
+// Kevin
     public static final String URI_GETCODELIST = WEBCONNECT_PATH + "getcodelist.php";
+    public static final String URI_BOOKSEARCH_LIST = WEBCONNECT_PATH + "booksearchlist.php";
+    public static final String URI_ADDWISHLIST = WEBCONNECT_PATH + "addwishlist.php";
+
     public static final String URI_LOGIN = WEBCONNECT_PATH + "login.php";
     public static final String URI_LOGUP = WEBCONNECT_PATH + "insertmember.php";
     public static final String URI_INSERTBOOK = WEBCONNECT_PATH + "insertbook.php";
@@ -21,7 +25,6 @@ public class WebConnect {
     public static final String URI_UPDATEWISHLIST = WEBCONNECT_PATH + "updatewishlist.php";
     public static final String URI_LOADINGMESSAGE = WEBCONNECT_PATH + "loadingmessage.php";
 
-    public static final String URI_BOOKSEARCH_LIST = WEBCONNECT_PATH + "booksearchlist.php";
     //IMAGES
     public static final String URI_IMAGES = WEBCONNECT_PATH + "images/";
 /*
