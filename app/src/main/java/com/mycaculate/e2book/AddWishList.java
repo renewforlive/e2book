@@ -4,9 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import android.widget.Toast;
 
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
@@ -19,85 +17,51 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
-public class AddWishList extends AsyncTask<String, Void, String> {
-    private ProgressDialog dialog;
+public class AddWishList {
     private Context mctx;
-    private int id, ownerId, bookId, focusId;
-    private String createTime, endTime;
+    private int ownerId, bookId, focusId;
 
-    public AddWishList(Context mctx, int ownerId, int bookId, int focusId) {
+    public AddWishList(Context mctx, int ownerId)
+    {
         this.mctx = mctx;
         this.ownerId = ownerId;
         this.bookId = bookId;
         this.focusId = focusId;
-        dialog=new ProgressDialog(this.mctx);
     }
 
-    @Override
-    protected String doInBackground(String... strings) {
-        String resultString="";
-        URL u=null;
-        int cnt;
+    public int addBook(int bookId, int focusId)
+    {
+        int ret=0;
+        if (ownerId==0)
+        {
+            Toast.makeText(mctx, "無使用者id", Toast.LENGTH_SHORT).show();
+            return ret;
+        }
+        if (bookId==0)
+        {
+            Toast.makeText(mctx, "無書籍id", Toast.LENGTH_SHORT).show();
+            return ret;
+        }
         try
         {
-            Log.d("AddWishList", "doInBackground():u=" + u);
-            HttpURLConnection conn = (HttpURLConnection) u.openConnection();
-            conn.setRequestMethod("POST");
-            conn.setDoOutput(true);
-            conn.setDoInput(true);
-            String postString = "";
-            if (this.ownerId != 0)
-                postString = postString.concat("owner_id=" + String.valueOf(this.ownerId));
-            else
-                resultString="no ownerId";
-            if (this.bookId!=0)
-                postString=postString.concat((postString.length()>0?"&":"")+"book_id="+String.valueOf(this.bookId));
-            else
-                resultString=resultString.concat((resultString.length()>0?", ":"")+"no bookId");
-            if (this.focusId != 0)
-                postString = postString.concat((postString.length() > 0 ? "&" : "") + "focus_id=" + String.valueOf(this.focusId));
-            Log.d("AddWishList", "postString=" + postString);
-            if (resultString.length()==0)
+            AddWishListTask task = new AddWishListTask(mctx, ownerId, bookId, focusId);
+            String result = task.execute(WebConnect.URI_ADDWISHLIST).get();
+            try
             {
-                OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-                writer.write(postString);
-                writer.flush();
-                writer.close();
-                os.close();
-                Log.d("AddWishList", "doInBackground():Post:" + postString);
-                InputStream is = conn.getInputStream();
-                byte[] b = new byte[1024];
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                cnt = is.read(b);
-                while (cnt > 0) {
-                    baos.write(b, 0, cnt);
-                    cnt = is.read(b);
-                }
-                is.close();
-                resultString = new String(baos.toByteArray());
-                Log.d("LoadBookSearch", "response=" + resultString);
+                ret = Integer.parseInt(result);
+                Toast.makeText(mctx, "加入成功("+ret+")", Toast.LENGTH_LONG).show();
             }
-        } catch (ProtocolException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+            catch (NumberFormatException e)
+            {
+                e.printStackTrace();
+                Toast.makeText(mctx, result, Toast.LENGTH_LONG).show();
+                ret=0;
+            }
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
         }
-        return resultString;
-    }
-
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-        dialog.setMessage("資料寫入中...");
-        dialog.show();
-    }
-
-    @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
-        dialog.dismiss();
+        return ret;
     }
 }
