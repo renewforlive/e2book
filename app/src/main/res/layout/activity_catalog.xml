@@ -30,7 +30,7 @@
                     android:id="@+id/btn_novel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="50dp"
+                    android:layout_marginRight="20dp"
                     android:layout_weight="0"
                     android:background="@mipmap/novel1" />
 
@@ -38,8 +38,9 @@
                     android:id="@+id/novel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="0"
                     android:text="小說"
                     android:textSize="24sp"
@@ -55,17 +56,17 @@
 
                 <ImageButton
                     android:id="@+id/btn_comic"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
                     android:background="@mipmap/comic1" />
 
                 <TextView
                     android:id="@+id/comic"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="0"
                     android:text="漫畫"
                     android:textSize="24sp"
@@ -92,7 +93,7 @@
                     android:id="@+id/btn_mazagine"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="50dp"
+                    android:layout_marginRight="20dp"
                     android:layout_weight="0"
                     android:background="@mipmap/mazagine1" />
 
@@ -100,8 +101,9 @@
                     android:id="@+id/mazagine"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="0"
                     android:text="雜誌"
                     android:textSize="24sp"
@@ -117,17 +119,17 @@
 
                 <ImageButton
                     android:id="@+id/btn_reference"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
                     android:background="@mipmap/reference1" />
 
                 <TextView
                     android:id="@+id/reference"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="0"
                     android:text="參考書"
                     android:textSize="24sp"
@@ -154,7 +156,7 @@
                     android:id="@+id/btn_history"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="50dp"
+                    android:layout_marginRight="20dp"
                     android:layout_weight="0"
                     android:background="@mipmap/history1" />
 
@@ -162,8 +164,9 @@
                     android:id="@+id/history"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="0"
                     android:text="歷史"
                     android:textSize="24sp"
@@ -179,17 +182,17 @@
 
                 <ImageButton
                     android:id="@+id/btn_intro"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
                     android:background="@mipmap/introduce1" />
 
                 <TextView
                     android:id="@+id/intro"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="0"
                     android:text="自傳"
                     android:textSize="24sp"
@@ -216,7 +219,7 @@
                     android:id="@+id/btn_child"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="50dp"
+                    android:layout_marginRight="20dp"
                     android:layout_weight="0"
                     android:background="@mipmap/child1" />
 
@@ -224,8 +227,9 @@
                     android:id="@+id/child"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="0"
                     android:text="童書"
                     android:textSize="24sp"
@@ -241,17 +245,17 @@
 
                 <ImageButton
                     android:id="@+id/btn_art"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
                     android:background="@mipmap/art1" />
 
                 <TextView
                     android:id="@+id/art"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="0"
                     android:text="藝術"
                     android:textSize="24sp"
@@ -278,7 +282,7 @@
                     android:id="@+id/btn_pro"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="50dp"
+                    android:layout_marginRight="20dp"
                     android:layout_weight="0"
                     android:background="@mipmap/profession1" />
 
@@ -286,8 +290,9 @@
                     android:id="@+id/pro"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="0"
                     android:text="技術"
                     android:textSize="24sp"
@@ -303,17 +308,17 @@
 
                 <ImageButton
                     android:id="@+id/btn_computer"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
                     android:background="@mipmap/computer1" />
 
                 <TextView
                     android:id="@+id/computer"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="0"
                     android:text="電腦"
                     android:textSize="24sp"
