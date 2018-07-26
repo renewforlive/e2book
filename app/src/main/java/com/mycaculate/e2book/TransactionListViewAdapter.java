@@ -23,7 +23,6 @@ public class TransactionListViewAdapter extends BaseAdapter {
         this.context = context;
         this.arrayList = arrayList;
         this.book_id = book_id;
-        this.arrayList = new ArrayList<Receipt>();
         inflater = LayoutInflater.from(context);
 
     }

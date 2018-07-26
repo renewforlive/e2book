@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import static com.mycaculate.e2book.WebConnect.URI_QUERYWISHLIST;
+import static com.mycaculate.e2book.WebConnect.URI_TRANSACTIONSHELVES;
 import static com.mycaculate.e2book.WebConnect.URI_UPDATESHELVES;
 
 public class SellListAdaptar extends BaseAdapter{
@@ -64,7 +65,7 @@ public class SellListAdaptar extends BaseAdapter{
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         Book book = (Book)getItem(position);
         View v = inflater.inflate(R.layout.selllist_item, null);
 
@@ -94,7 +95,7 @@ public class SellListAdaptar extends BaseAdapter{
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                QueryWishlist queryWishlist = new QueryWishlist(context,member_id);
+                QueryWishlist queryWishlist = new QueryWishlist(context,member_id,showBook_id);
                 try {
                     receiptList = queryWishlist.execute(URI_QUERYWISHLIST).get();
                 } catch (InterruptedException e) {
@@ -102,7 +103,8 @@ public class SellListAdaptar extends BaseAdapter{
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
-
+//
+//                Receipt receipt = (Receipt)getItem(position);
                 LayoutInflater inflater = LayoutInflater.from(context);
                 View view = inflater.inflate(R.layout.wishlist_listview_item,null);
 
@@ -113,13 +115,8 @@ public class SellListAdaptar extends BaseAdapter{
 
                 builder = new AlertDialog.Builder(context);
                 builder.setTitle("對這本書感興趣的人")
-                        .setView(view)
-                        .setPositiveButton("確定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                        .setView(view);
 
-                            }
-                        });
                 alertDialog = builder.create();
                 alertDialog.show();
             }
@@ -135,6 +132,10 @@ public class SellListAdaptar extends BaseAdapter{
         });
 
         return v;
+    }
+    public void transactionToShelves(String showbook_id){
+        TransactionShelves transactionShelves = new TransactionShelves(context,showbook_id,receipt.getSender_id());
+        transactionShelves.execute(URI_TRANSACTIONSHELVES);
     }
     public String change_catalog(int catalog_id){
         String catalog_name = "";

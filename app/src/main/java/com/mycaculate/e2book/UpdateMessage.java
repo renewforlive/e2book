@@ -4,10 +4,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -16,26 +12,22 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.util.ArrayList;
 
-
-public class QueryWishlist extends AsyncTask<String, Void, ArrayList<Receipt>> {
+public class UpdateMessage extends AsyncTask<String,Void,String> {
     Context context;
-    String member_id;
-    String book_id;
+    int msg_id;
     String twoHyphens = "--";
     String crlf = "\r\n";
     String boundary = "*****";
 
-    public QueryWishlist(Context context, String member_id, int book_id) {
+    public UpdateMessage(Context context, int msg_id) {
         this.context = context;
-        this.member_id = member_id;
-        this.book_id = String.valueOf(book_id);
+        this.msg_id = msg_id;
     }
 
+
     @Override
-    protected ArrayList<Receipt> doInBackground(String... strings) {
-        ArrayList<Receipt> result = new ArrayList<Receipt>();
+    protected String doInBackground(String... strings) {
         URL url = null;
         try {
             //連線
@@ -54,15 +46,11 @@ public class QueryWishlist extends AsyncTask<String, Void, ArrayList<Receipt>> {
 
             //上傳書名等資料
             request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"member_id" + "\"" + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"msg_id" + "\"" + crlf);
             request.writeBytes(crlf);
-            request.writeBytes(member_id);
+            request.writeBytes(String.valueOf(msg_id));
             request.writeBytes(crlf);
-            request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"book_id" + "\"" + crlf);
-            request.writeBytes(crlf);
-            request.writeBytes(book_id);
-            request.writeBytes(crlf);
+
             request.writeBytes(twoHyphens + boundary + twoHyphens + crlf);
             request.flush();
             request.close();
@@ -73,17 +61,10 @@ public class QueryWishlist extends AsyncTask<String, Void, ArrayList<Receipt>> {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             while (is.read(b) != -1)
                 baos.write(b);
-            String JSONResp = new String(baos.toByteArray());
-            Log.i("資料回傳成功",JSONResp );
+            String response = new String(baos.toByteArray());
+            Log.i("資料回傳成功",response );
 
-            JSONArray array = new JSONArray(JSONResp);
-            for (int i = 0; i < array.length(); i++) {
-                if (array.getJSONObject(i) != null) {
-                    result.add(convertReceipt(array.getJSONObject(i)));
-                    Log.v("data=", array.getJSONObject(i).toString());
-                }
-            }
-            return result;
+            return response;
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -91,21 +72,9 @@ public class QueryWishlist extends AsyncTask<String, Void, ArrayList<Receipt>> {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
 
         return null;
-    }
-    private Receipt convertReceipt(JSONObject obj) throws JSONException {
-
-        int sender_id = obj.getInt("owner_id");
-        String sender_nickname = obj.getString("nickname");
-
-
-        Log.v("jsonObj=",obj.getString("owner_id").toString());
-
-        return new Receipt(sender_id, sender_nickname);
     }
 
     @Override
@@ -114,7 +83,7 @@ public class QueryWishlist extends AsyncTask<String, Void, ArrayList<Receipt>> {
     }
 
     @Override
-    protected void onPostExecute(ArrayList<Receipt> s) {
+    protected void onPostExecute(String s) {
         super.onPostExecute(s);
     }
 }

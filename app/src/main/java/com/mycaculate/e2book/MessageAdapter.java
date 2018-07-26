@@ -16,6 +16,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import static com.mycaculate.e2book.WebConnect.URI_INSERTMESSAGE;
+import static com.mycaculate.e2book.WebConnect.URI_UPDATEMESSAGE;
 
 public class MessageAdapter extends BaseAdapter {
     LayoutInflater inflater;
@@ -72,6 +73,7 @@ public class MessageAdapter extends BaseAdapter {
         final String sender = message.getSender();
         final String receipient = message.getRecipient();
         final int shelves_id = message.getShelves_id();
+        final int msg_id = message.getMsg_id();
 
         btn_reply.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,7 +105,8 @@ public class MessageAdapter extends BaseAdapter {
         btn_deletemsg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                UpdateMessage updateMessage = new UpdateMessage(context,msg_id);
+                updateMessage.execute(URI_UPDATEMESSAGE);
             }
         });
 

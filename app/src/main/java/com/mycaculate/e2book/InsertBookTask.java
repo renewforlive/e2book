@@ -13,10 +13,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.net.URLEncoder;
 
 import static com.mycaculate.e2book.WebConnect.URI_INSERTIMG;
 import static com.mycaculate.e2book.WebConnect.URI_INSERTSHELVES;
@@ -44,6 +46,7 @@ public class InsertBookTask extends AsyncTask<String, Void, String> {
             this.attachmentFileName = picturepath;
             this.idForNickname = idForNickname;
             this.member_id = idForNickname[0];
+
     }
 
     @Override
@@ -51,6 +54,14 @@ public class InsertBookTask extends AsyncTask<String, Void, String> {
             super.onPreExecute();
             dialog.setMessage("資料讀取中~~");
             dialog.show();
+        try {
+            getData[0] = URLEncoder.encode(getData[0], "utf-8");
+            getData[2] = URLEncoder.encode(getData[2], "utf-8");
+            getData[3] = URLEncoder.encode(getData[3], "utf-8");
+            getData[5] = URLEncoder.encode(getData[5], "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -156,6 +167,7 @@ public class InsertBookTask extends AsyncTask<String, Void, String> {
         public InsertImgTask(Context context, String attachmentFileName) {
             this.attachmentFileName = attachmentFileName;
             this.context = context;
+            Log.i("attachmentFileName===>",attachmentFileName);
         }
 
         @Override

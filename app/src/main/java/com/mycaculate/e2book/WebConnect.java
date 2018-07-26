@@ -27,6 +27,7 @@ public class WebConnect {
     public static final String URI_TRANSACTIONWISHLIST = WEBCONNECT_PATH + "transactionwishlist.php";
     public static final String URI_QUERYWISHLIST = WEBCONNECT_PATH + "querywishlist.php";
     public static final String URI_TRANSACTIONSHELVES = WEBCONNECT_PATH + "transactionshelves.php";
+    public static final String URI_UPDATEMESSAGE = WEBCONNECT_PATH + "updatemessage.php";
 
     //IMAGES
     public static final String URI_IMAGES = WEBCONNECT_PATH + "images/";
