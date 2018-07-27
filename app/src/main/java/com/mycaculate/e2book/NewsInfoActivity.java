@@ -42,7 +42,6 @@ public class NewsInfoActivity extends AppCompatActivity {
             member_id = idForNickname[0];
         }
 
-
         LoadingMessage loadingMessage = new LoadingMessage(this,member_id);
         try {
             msg_arraylist = loadingMessage.execute(URI_LOADINGMESSAGE).get();
