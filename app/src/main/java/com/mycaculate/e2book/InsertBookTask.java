@@ -161,7 +161,7 @@ public class InsertBookTask extends AsyncTask<String, Void, String> {
         String attachmentFileName;
         int bytesRead, bytesAvailable, bufferSize;
         byte[] buffer;
-        int maxBufferSize = 1 * 1024 * 1024;
+        int maxBufferSize = 4 * 1024 * 1024;
 
 
         public InsertImgTask(Context context, String attachmentFileName) {
@@ -208,6 +208,7 @@ public class InsertBookTask extends AsyncTask<String, Void, String> {
                         bytesAvailable = fileInputStream.available();
                         bufferSize = Math.min(bytesAvailable, maxBufferSize);
                         bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+                        Log.i("bufferSize = ",String.valueOf(bufferSize));
 
                     }
                     request.write(buffer);
