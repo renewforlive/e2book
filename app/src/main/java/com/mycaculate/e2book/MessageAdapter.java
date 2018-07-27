@@ -92,6 +92,7 @@ public class MessageAdapter extends BaseAdapter {
                             public void onClick(DialogInterface dialog, int which) {
                                 EditText edtMessage = view.findViewById(R.id.edtMessage);
                                 String message = edtMessage.getText().toString();
+
                                 Toast.makeText(context,"你傳送了一個訊息",Toast.LENGTH_LONG).show();
 
                                 InsertMessage insertMessage = new InsertMessage(context, receipient,sender,message,String.valueOf(shelves_id));
