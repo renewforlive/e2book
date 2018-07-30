@@ -77,7 +77,18 @@ public class BookSearchAdapter extends BaseAdapter
             txtArea.setText("地區:"+bookSearch.getOwnerArea());
             txtShelveTime.setText("上架時間:"+bookSearch.getShelveTime());
             txtNotes.setText("備註:"+bookSearch.getShelveNotes());
-            btnAddWishList.setEnabled(true);
+            if (bookSearch.getTransactionTime().length()>0)
+            {
+                btnAddWishList.setEnabled(false);
+                btnAddWishList.setText("已交易");
+            }
+            else if (bookSearch.getDismountedTime().length()>0)
+            {
+                btnAddWishList.setEnabled(false);
+                btnAddWishList.setText("已下架");
+            }
+//            else
+//                btnAddWishList.setEnabled(true);
         }
         btnAddWishList.setOnClickListener(new View.OnClickListener() {
             @Override
