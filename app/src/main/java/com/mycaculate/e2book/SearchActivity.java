@@ -37,6 +37,7 @@ public class SearchActivity extends AppCompatActivity {
     BookSearchAdapter bookSearchAdapter;
     Integer catalog=0, location=0;
     String keyword="";
+    boolean first_time=true;
 
 
     @Override
@@ -140,6 +141,10 @@ public class SearchActivity extends AppCompatActivity {
             Log.d("showView()", "Pass5");
             txtNotFound.setVisibility(View.VISIBLE);
             searchListView.setVisibility(View.INVISIBLE);
+            if (first_time)
+                first_time=false;
+            else
+                txtNotFound.setText("無資料, 請重設篩選條件");
         }
         bookSearchAdapter=new BookSearchAdapter(this, idForNickname, bookSearchList);
         searchListView.setAdapter(bookSearchAdapter);
