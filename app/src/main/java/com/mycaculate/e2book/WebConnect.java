@@ -2,13 +2,13 @@ package com.mycaculate.e2book;
 
 public class WebConnect {
 
-    //    public static final String WEBCONNECT_PATH="http://172.19.107.21/O2BookPHP/";
+    // Kevin
     public static final String WEBCONNECT_PATH = "http://o2book.kevintw.idv.tw/";
-// Kevin
     public static final String URI_GETCODELIST = WEBCONNECT_PATH + "getcodelist.php";
     public static final String URI_BOOKSEARCH_LIST = WEBCONNECT_PATH + "booksearchlist.php";
     public static final String URI_ADDWISHLIST = WEBCONNECT_PATH + "addwishlist.php";
 
+    //
     public static final String URI_LOGIN = WEBCONNECT_PATH + "login.php";
     public static final String URI_LOGUP = WEBCONNECT_PATH + "insertmember.php";
     public static final String URI_INSERTBOOK = WEBCONNECT_PATH + "insertbook.php";
@@ -32,11 +32,6 @@ public class WebConnect {
 
     //IMAGES
     public static final String URI_IMAGES = WEBCONNECT_PATH + "images/";
-/*
-    public static final String WEB_CONNECT_PATH="http://172.19.107.21/O2BookPHP/";
-//    public static final String WEB_CONNECT_PATH="http://o2book.kevintw.idv.tw/";
-    public static final String URI_GET_CODE_LIST=WEB_CONNECT_PATH+"getcodelist.php";
-    public static final String URI_BOOKSEARCH_LIST=WEB_CONNECT_PATH+"booksearchlist.php";
->>>>>>> origin/20180724
-*/
+
+    //Jimmy
 }
