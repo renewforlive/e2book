@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     Intent intent;
     ImageButton btn_news,btn_catalog,btn_rank,btn_search,btn_mylist,btn_upload;
@@ -15,6 +17,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Bundle bData;
     String[] idForNickname;
     Button btn_message,btn_readMe;
+    Message message;
+    String shelves_num;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_upload.setOnClickListener(this);
         btn_message.setOnClickListener(this);
         btn_readMe.setOnClickListener(this);
+
     }
     @Override
     public void onClick(View v) {
@@ -87,12 +92,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent.setClass(MainActivity.this,UpLoadActivity.class));
                 break;
             case R.id.message:
-
                 intent.putExtra("bData",idForNickname);
                 startActivity(intent.setClass(MainActivity.this,AddMessage.class));
                 break;
             case R.id.btn_readMe:
-
                 intent.putExtra("bData",idForNickname);
                 startActivity(intent.setClass(MainActivity.this,ReadMessage.class));
                 break;

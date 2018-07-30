@@ -14,8 +14,9 @@ public class AddMessage extends AppCompatActivity {
     private String addSender,addReceiver,addsvid,addmessage;
     private Button btn_OK;
     private CreateMessage createMessage;
-    private Bundle bData;
-    private String[] idForNickname;
+    private Bundle bData,bData_s;
+    private String[] idForNickname,shelves_num;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +24,11 @@ public class AddMessage extends AppCompatActivity {
         setContentView(R.layout.activity_add_message);
 
         bData=this.getIntent().getExtras();
+        bData_s=this.getIntent().getExtras();
         idForNickname=bData.getStringArray("bData");
-        CreateMessage createMessage=new CreateMessage(this,idForNickname[0],null,idForNickname[2],null,null);
+        shelves_num=bData_s.getStringArray("bData_s");
+        CreateMessage createMessage=new CreateMessage(this,idForNickname[0],null,null,null,null);
+
         initView();
 
     }
@@ -40,7 +44,7 @@ public class AddMessage extends AppCompatActivity {
             public void onClick(View v) {
                 addSender =idForNickname[0];
                 addReceiver =editReceiver.getText().toString();
-                addsvid =idForNickname[2];
+                addsvid=editsvid.getText().toString();
                 addmessage =editmessage.getText().toString();
                 Log.i(" addSender", addSender);
                 createMessage =new CreateMessage(AddMessage.this,addSender,addReceiver,addsvid,addmessage,null);

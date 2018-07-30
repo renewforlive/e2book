@@ -34,18 +34,7 @@ public class ReadMessage extends AppCompatActivity {
 
         readlist=findViewById(R.id.readList);
         readMessageData=new ReadMessageData(this);
-//        bData=this.getIntent().getExtras();
-//        idForNickname=bData.getStringArray("bData");
-//        CreateMessage createMessage=new CreateMessage(this,idForNickname[0],idForNickname[1],idForNickname[2],idForNickname[3],idForNickname[4]);
 
-//        showSender=findViewById(R.id.showsender);
-//        showSender.setText(idForNickname[1]);
-//        showReceiver=findViewById(R.id.showreciver);
-//        showReceiver.setText(idForNickname[2]);
-//        showsvid=findViewById(R.id.showsheves);
-//        showsvid.setText(idForNickname[3]);
-//        showmessage=findViewById(R.id.showmessage);
-//        showmessage.setText(idForNickname[4]);
 
         try {
             message_list=readMessageData.execute(WebConnect.URI_MESSAGE_CONNECT).get();

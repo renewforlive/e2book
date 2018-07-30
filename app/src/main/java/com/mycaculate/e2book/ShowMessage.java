@@ -13,20 +13,12 @@ public class ShowMessage extends AppCompatActivity {
     private TextView showSender,showReceiver,showsvid,showmessage;
     Button btn_Show;
     private Intent intent;
-    private Bundle bData;
-    private String[] idForNickname;
-    ReadMessageData readMessageData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_message);
 
-
-
-//        bData=this.getIntent().getExtras();
-//        idForNickname=bData.getStringArray("bData");
-//        readMessageData=new ReadMessageData(this);
        initView();
     }
     private void initView(){
@@ -46,12 +38,6 @@ public class ShowMessage extends AppCompatActivity {
         showmessage.setText(message);
 
         btn_Show=findViewById(R.id.btn_Show);
-        btn_Show.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                readMessageData.execute(WebConnect.URI_MESSAGE_CONNECT);
-            }
-        });
 
     }
 }
