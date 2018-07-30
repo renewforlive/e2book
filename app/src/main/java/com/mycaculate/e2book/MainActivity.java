@@ -90,10 +90,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 intent.putExtra("bData",idForNickname);
                 startActivity(intent.setClass(MainActivity.this,AddMessage.class));
+                break;
             case R.id.btn_readMe:
 
                 intent.putExtra("bData",idForNickname);
                 startActivity(intent.setClass(MainActivity.this,ReadMessage.class));
+                break;
         }
     }
 }

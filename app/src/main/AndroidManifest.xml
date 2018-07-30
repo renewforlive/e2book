@@ -32,7 +32,8 @@
         <activity android:name=".UpLoadActivity" />
         <activity android:name=".CatalogDetailActivity" />
         <activity android:name=".AddMessage" />
-        <activity android:name=".ReadMessage"></activity>
+        <activity android:name=".ReadMessage" />
+        <activity android:name=".ShowMessage"></activity>
     </application>
 
 </manifest>

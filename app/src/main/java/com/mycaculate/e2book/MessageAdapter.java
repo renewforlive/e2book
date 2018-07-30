@@ -40,11 +40,11 @@ public class MessageAdapter extends BaseAdapter {
         TextView sender_re=convertView.findViewById(R.id.sender_re);
         sender_re.setText(data.getFrom_id());
         TextView receiver_re=convertView.findViewById(R.id.receiver_re);
-        receiver_re.setText(data.getFrom_id());
+        receiver_re.setText(data.getAttn_id());
         TextView shelves_id_re=convertView.findViewById(R.id.shelves_id_re);
-        shelves_id_re.setText(data.getFrom_id());
+        shelves_id_re.setText(data.getShelves_id());
         TextView message_re=convertView.findViewById(R.id.message_re);
-        message_re.setText(data.getFrom_id());
+        message_re.setText(data.getMessage());
         return convertView;
     }
 }

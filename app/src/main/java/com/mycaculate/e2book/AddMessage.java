@@ -24,7 +24,7 @@ public class AddMessage extends AppCompatActivity {
 
         bData=this.getIntent().getExtras();
         idForNickname=bData.getStringArray("bData");
-        CreateMessage createMessage=new CreateMessage(this,idForNickname[0],null,null,null,null);
+        CreateMessage createMessage=new CreateMessage(this,idForNickname[0],null,idForNickname[2],null,null);
         initView();
 
     }
@@ -40,7 +40,7 @@ public class AddMessage extends AppCompatActivity {
             public void onClick(View v) {
                 addSender =idForNickname[0];
                 addReceiver =editReceiver.getText().toString();
-                addsvid =editsvid.getText().toString();
+                addsvid =idForNickname[2];
                 addmessage =editmessage.getText().toString();
                 Log.i(" addSender", addSender);
                 createMessage =new CreateMessage(AddMessage.this,addSender,addReceiver,addsvid,addmessage,null);

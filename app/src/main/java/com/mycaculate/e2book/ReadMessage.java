@@ -4,26 +4,27 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class ReadMessage extends AppCompatActivity {
+    private TextView showSender,showReceiver,showsvid,showmessage;
+    String show1,show2,show3,show4;
     private Intent intent;
     private ListView readlist;
     private MessageAdapter messageAdapter;
-    private ReadMessageData readMessageData;
+    private ReadMessageData readMessageData,readMessageData2;
     List<Message> message_list;
-//    private String readSender,readReceiver,readsvid,readmessage;
-//    private Button btn_read;
-//    private Bundle bData;
-//    private String[] idForNickname;
-//    private String[] old_message = new String[4];
-
+    private Bundle bData;
+    private String[] idForNickname;
 
 
     @Override
@@ -33,6 +34,18 @@ public class ReadMessage extends AppCompatActivity {
 
         readlist=findViewById(R.id.readList);
         readMessageData=new ReadMessageData(this);
+//        bData=this.getIntent().getExtras();
+//        idForNickname=bData.getStringArray("bData");
+//        CreateMessage createMessage=new CreateMessage(this,idForNickname[0],idForNickname[1],idForNickname[2],idForNickname[3],idForNickname[4]);
+
+//        showSender=findViewById(R.id.showsender);
+//        showSender.setText(idForNickname[1]);
+//        showReceiver=findViewById(R.id.showreciver);
+//        showReceiver.setText(idForNickname[2]);
+//        showsvid=findViewById(R.id.showsheves);
+//        showsvid.setText(idForNickname[3]);
+//        showmessage=findViewById(R.id.showmessage);
+//        showmessage.setText(idForNickname[4]);
 
         try {
             message_list=readMessageData.execute(WebConnect.URI_MESSAGE_CONNECT).get();
@@ -41,34 +54,29 @@ public class ReadMessage extends AppCompatActivity {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+
+
+
         messageAdapter=new MessageAdapter(this,message_list);
         readlist.setAdapter(messageAdapter);
 
-//        initView();
+
+        readlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                intent =new Intent();
+                intent.putExtra("from_name", message_list.get(position).getFrom_id());
+                intent.putExtra("attn_id",message_list.get(position).getAttn_id());
+                intent.putExtra("shelves_id",message_list.get(position).getShelves_id());
+                intent.putExtra("message",message_list.get(position).getMessage());
+
+
+
+                intent.setClass(ReadMessage.this,ShowMessage.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
-
-
-
-//    private void initView(){
-//        editSender_re=findViewById(R.id.sender_re);
-//        editReceiver_re=findViewById(R.id.recevier_re);
-//        editsvid_re=findViewById(R.id.shelves_id_re);
-//        editmessage_re=findViewById(R.id.message_re);
-//        btn_read.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                readSender=editSender_re.getText().toString();
-//                readReceiver=editReceiver_re.getText().toString();
-//                readsvid=editsvid_re.getText().toString();
-//                readmessage=editmessage_re.getText().toString();
-//
-//                old_message[1]=readSender;
-//                old_message[2]=readSender;
-//                old_message[3]=readSender;
-//                old_message[4]=readSender;
-//            }
-//        });
-//
-//    }
 }

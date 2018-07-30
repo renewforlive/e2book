@@ -25,12 +25,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReadMessageData extends AsyncTask<String, Void, List<Message>> {
-    Context context;
+    Context c;
     private  ProgressDialog dialog;
 
     public ReadMessageData(Context context) {
-        this.context = context;
-        dialog = new ProgressDialog(context);
+        this.c = context;
+        dialog = new ProgressDialog(c);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class ReadMessageData extends AsyncTask<String, Void, List<Message>> {
         try {
             u = new URL(strings[0]);
             HttpURLConnection conn = (HttpURLConnection) u.openConnection();
-            conn.setRequestMethod("POST");
+            conn.setRequestMethod("GET");
             conn.setDoInput(true);
             conn.setDoOutput(true);
             conn.connect();
@@ -71,8 +71,7 @@ public class ReadMessageData extends AsyncTask<String, Void, List<Message>> {
             Log.i("JSONResp=", JSONResp);
             JSONArray array = new JSONArray(JSONResp);
             for(int i = 0; i < array.length(); i++){
-//                if(array.getJSONObject(i) != null){
-                    //將資料加入ArrayList
+//
                 if (array.getJSONObject(i)!=null)
                     result.add(convertMessage(array.getJSONObject(i)));
 //                }
@@ -88,16 +87,18 @@ public class ReadMessageData extends AsyncTask<String, Void, List<Message>> {
 
         return result;
     }
+
     static Message convertMessage(JSONObject obj) throws JSONException
     {
-//        int id = obj.getInt(" id");
-        int id=0;
-        String from_id = obj.getString(" from_id");
-        String attn_id = obj.getString(" attn_id");
-        String shelves_id = obj.getString(" shelves_id");
-        String message = obj.getString(" message");
-        Log.v("jsonObj=", obj.getString(" from_id").toString());
+//       int id = obj.getInt(" id");
+//        int id = obj.getString(" id");
+        String sender_re = obj.getString("from_name");
 
-        return new Message(String.valueOf(id), from_id, attn_id, shelves_id,message);
+        String receiver_re = obj.getString("attn_name");
+        String shelves_id_re = obj.getString("book_name");
+        String message_re = obj.getString("message");
+        Log.v("from_id=", obj.getString("from_id").toString());
+
+        return new Message(sender_re,receiver_re,shelves_id_re,message_re);
     }
 }
