@@ -49,7 +49,7 @@ public class LoadingMember extends AsyncTask<String,Void,String[]> {
 
             //上傳書名等資料
             request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"member_id\"" + "\"" + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"member_id" + "\"" + crlf);
             request.writeBytes(crlf);
             request.writeBytes(member_id);
             request.writeBytes(crlf);

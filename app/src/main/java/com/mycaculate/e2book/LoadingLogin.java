@@ -60,12 +60,12 @@ public class LoadingLogin extends AsyncTask<String,Void,String[]>{
             //串流物件
             DataOutputStream request = new DataOutputStream(conn.getOutputStream());
             request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"account\"" + "\"" + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"account" + "\"" + crlf);
             request.writeBytes(crlf);
             request.writeBytes(account);
             request.writeBytes(crlf);
             request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"password\"" + "\"" + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"password" + "\"" + crlf);
             request.writeBytes(crlf);
             request.writeBytes(password);
             request.writeBytes(crlf);

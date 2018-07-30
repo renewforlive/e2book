@@ -2,6 +2,7 @@ package com.mycaculate.e2book;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,10 +10,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,12 +26,18 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.Manifest;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static android.Manifest.permission.*;
+import static com.mycaculate.e2book.WebConnect.URI_INSERTBOOK;
+
+
 public class UpLoadActivity extends AppCompatActivity implements View.OnClickListener{
+    private static final int REQUEST_READ_EXTERNAL_STORAGE = 1;
     EditText edtBookName,edtAuthor,edtPublisher,edtPrice, edtNotes;
     ImageButton btn_uploadimg, btn_camera, btn_confirm,btn_back;
     ImageView showimg;
@@ -57,11 +68,19 @@ public class UpLoadActivity extends AppCompatActivity implements View.OnClickLis
 
         initView();
         initButton();
+
         //bData
         bData = getIntent().getExtras();
         if (bData != null){
             idForNickname = bData.getStringArray("bData");
         }
+        //要求權限
+        int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permission!= PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(this, new String[] {WRITE_EXTERNAL_STORAGE,READ_EXTERNAL_STORAGE}, REQUEST_READ_EXTERNAL_STORAGE);
+        }
+
         //手機解析度
         mPhone = new DisplayMetrics();
         //spinner的使用
@@ -276,7 +295,7 @@ public class UpLoadActivity extends AppCompatActivity implements View.OnClickLis
                             newCatalog_id = String.valueOf(catalog_id);
                             String[] new_data = new String[]{newBookName,newCatalog_id,newAuthor,newPublisher,newPrice,newNotes};
                             InsertBookTask insertBookTask = new InsertBookTask(this,new_data,picturePath,idForNickname);
-                            insertBookTask.execute("http://renewforlive11.000webhostapp.com/test/insertbook.php");
+                            insertBookTask.execute(URI_INSERTBOOK);
                         }
                     }
                 }
@@ -289,5 +308,26 @@ public class UpLoadActivity extends AppCompatActivity implements View.OnClickLis
         intent.putExtra("idForNickname",idForNickname);
         intent.setClass(UpLoadActivity.this,MainActivity.class);
         startActivity(intent);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.backtomenu,menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.backtomenu:
+                Intent intent = new Intent();
+                intent.putExtra("bData",idForNickname);
+                intent.setClass(this,MainActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.logout:
+                startActivity(new Intent(this,LoginActivity.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

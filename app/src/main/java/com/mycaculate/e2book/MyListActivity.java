@@ -1,7 +1,11 @@
 package com.mycaculate.e2book;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -10,12 +14,18 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+import static com.mycaculate.e2book.WebConnect.URI_LOADINGMEMBER;
+import static com.mycaculate.e2book.WebConnect.URI_LOADINGSHELVES;
+import static com.mycaculate.e2book.WebConnect.URI_LOADINGWISHLIST;
+
 public class MyListActivity extends AppCompatActivity implements View.OnClickListener{
     TextView showUsername,showEmail,showLocation;
     ListView mylistView;
-    Bundle bData;
     ImageButton btn_buylist,btn_selllist;
+    //bData傳送
+    Bundle bData;
     String[] idForNickname;
+    //會員資料，帳戶、郵件、地區
     String[] member_data;
     //兩個arraylist為買和賣
     ArrayList<Book> buyarraylist;
@@ -33,11 +43,13 @@ public class MyListActivity extends AppCompatActivity implements View.OnClickLis
         bData = getIntent().getExtras();
         if (bData != null){
             idForNickname = bData.getStringArray("bData");
+            //取得會員資料
             LoadingMember loadingMember = new LoadingMember(this, idForNickname[0]);
             try {
-                member_data = loadingMember.execute("http://renewforlive11.000webhostapp.com/test/loadingmember.php").get();
+                member_data = loadingMember.execute(URI_LOADINGMEMBER).get();
                 showUsername.setText(member_data[0]);
                 showEmail.setText(member_data[1]);
+                //地區id換中文
                 changelocate();
 
             } catch (InterruptedException e) {
@@ -134,7 +146,7 @@ public class MyListActivity extends AppCompatActivity implements View.OnClickLis
     public void buylist(){
         LoadingWishlist loadingWishlist = new LoadingWishlist(this,idForNickname[0]);
         try {
-            buyarraylist = loadingWishlist.execute("http://renewforlive11.000webhostapp.com/test/loadingwishlist.php").get();
+            buyarraylist = loadingWishlist.execute(URI_LOADINGWISHLIST).get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -144,9 +156,10 @@ public class MyListActivity extends AppCompatActivity implements View.OnClickLis
         mylistView.setAdapter(buyListAdaptar);
     }
     public void selllist(){
+        //透過會員ID將該會員上架的書籍下載
         LoadingShelves loadingShelves = new LoadingShelves(this,idForNickname[0]);
         try {
-            sellarraylist = loadingShelves.execute("http://renewforlive11.000webhostapp.com/test/loadingshelves.php").get();
+            sellarraylist = loadingShelves.execute(URI_LOADINGSHELVES).get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -154,5 +167,26 @@ public class MyListActivity extends AppCompatActivity implements View.OnClickLis
         }
         SellListAdaptar sellListAdaptar = new SellListAdaptar(this,sellarraylist,idForNickname[0]);
         mylistView.setAdapter(sellListAdaptar);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.backtomenu,menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.backtomenu:
+                Intent intent = new Intent();
+                intent.putExtra("bData",idForNickname);
+                intent.setClass(this,MainActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.logout:
+                startActivity(new Intent(this,LoginActivity.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

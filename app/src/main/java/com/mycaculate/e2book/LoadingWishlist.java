@@ -1,6 +1,8 @@
 package com.mycaculate.e2book;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -18,12 +20,15 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import static com.mycaculate.e2book.WebConnect.URI_IMAGES;
+
 public class LoadingWishlist extends AsyncTask<String,Void,ArrayList<Book>> {
     Context context;
     String member_id;
     String twoHyphens = "--";
     String crlf = "\r\n";
     String boundary = "*****";
+    Bitmap bitmap;
 
     public LoadingWishlist(Context context, String member_id) {
         this.context = context;
@@ -51,7 +56,7 @@ public class LoadingWishlist extends AsyncTask<String,Void,ArrayList<Book>> {
 
             //上傳書名等資料
             request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"member_id\"" + "\"" + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"member_id" + "\"" + crlf);
             request.writeBytes(crlf);
             request.writeBytes(member_id);
             request.writeBytes(crlf);
@@ -91,6 +96,15 @@ public class LoadingWishlist extends AsyncTask<String,Void,ArrayList<Book>> {
     }
     private Book convertBook(JSONObject obj) throws JSONException {
 
+        String filename = obj.getString("filename");
+
+        if(filename != null) {
+            bitmap = LoadImage(URI_IMAGES + filename);
+        }else{
+            bitmap = LoadImage(URI_IMAGES + "no_pictures.png");
+        }
+
+        String price = obj.getString("price");
         String book_name = obj.getString("book_name");
         String catalog_id = String.valueOf(obj.getInt("catalog_id"));
         String author = obj.getString("author");
@@ -99,7 +113,31 @@ public class LoadingWishlist extends AsyncTask<String,Void,ArrayList<Book>> {
 
         Log.v("jsonObj=",obj.getString("id").toString());
 
-        return new Book(null, book_id, book_name, catalog_id, author, publisher,null);
+        return new Book(bitmap, book_id, book_name, catalog_id, author, publisher,price,null);
+    }
+    private Bitmap LoadImage(String imageUrl){
+        Bitmap bitmap = null;
+        try {
+            URL url = new URL(imageUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+
+            conn.setRequestMethod("GET");
+            conn.connect();
+
+            if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                InputStream inputStream = conn.getInputStream();
+
+                bitmap = BitmapFactory.decodeStream(inputStream);
+                inputStream.close();
+                return bitmap;
+            }
+        } catch (MalformedURLException e1) {
+            e1.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
     }
     @Override
     protected void onPreExecute() {

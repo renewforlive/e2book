@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import java.util.concurrent.ExecutionException;
 
+import static com.mycaculate.e2book.WebConnect.URI_LOGIN;
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
     EditText edtAccount,edtPassword,edtNickname;
     ImageButton btn_login, btn_nologup;
@@ -73,7 +75,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         LoadingLogin loadingLogin = new LoadingLogin(this,account,password);
         try {
-            idForNickname = loadingLogin.execute("http://renewforlive11.000webhostapp.com/test/login.php").get();
+            idForNickname = loadingLogin.execute(URI_LOGIN).get();
             Log.i("idForNickname=",idForNickname[1]);
             if (idForNickname[0].equals("0")){
                 if (idForNickname[1].equals("0")){
@@ -87,7 +89,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             else{
                 Toast.makeText(this,"歡迎您回來:"+idForNickname[1],Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent();
-                intent.putExtra("idForNickname",idForNickname);
+                intent.putExtra("bData",idForNickname);
                 intent.setClass(this,MainActivity.class);
                 startActivity(intent);
             }

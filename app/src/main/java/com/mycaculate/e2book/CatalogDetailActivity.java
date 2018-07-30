@@ -3,6 +3,9 @@ package com.mycaculate.e2book;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -11,12 +14,17 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+import static com.mycaculate.e2book.WebConnect.URI_DOWNLOADBOOK;
+
 public class CatalogDetailActivity extends AppCompatActivity {
+    //接收bData
     Bundle bDate;
     int catalog_type;
+    String[] idForNickname;
+
     ArrayList<Book> arrayList;
     ListView catalog_listView;
-    String[] idForNickname;
+
 
 
     @Override
@@ -34,7 +42,7 @@ public class CatalogDetailActivity extends AppCompatActivity {
 
         LoadingCatalogTask loadingCatalogTask = new LoadingCatalogTask(this,catalog_type);
         try {
-            arrayList = loadingCatalogTask.execute("http://renewforlive11.000webhostapp.com/test/downloadbook.php").get();
+            arrayList = loadingCatalogTask.execute(URI_DOWNLOADBOOK).get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -77,5 +85,26 @@ public class CatalogDetailActivity extends AppCompatActivity {
                 setTitle("類型:電腦");
                 break;
         }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.backtomenu,menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.backtomenu:
+                Intent intent = new Intent();
+                intent.putExtra("bData",idForNickname);
+                intent.setClass(this,MainActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.logout:
+                startActivity(new Intent(this,LoginActivity.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -3,6 +3,9 @@ package com.mycaculate.e2book;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -16,6 +19,7 @@ public class CatalogActivity extends AppCompatActivity implements View.OnClickLi
     ImageButton btn_novel,btn_comic,btn_mazagine,btn_reference,btn_history,btn_intro,btn_child,btn_art,btn_pro,btn_computer;
     Intent intent;
     int catalog_type;
+    //傳member_id
     Bundle bData;
     String[] idForNickname;
 
@@ -121,5 +125,26 @@ public class CatalogActivity extends AppCompatActivity implements View.OnClickLi
                 startActivity(intent);
                 break;
         }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.backtomenu,menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.backtomenu:
+                Intent intent = new Intent();
+                intent.putExtra("bData",idForNickname);
+                intent.setClass(this,MainActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.logout:
+                startActivity(new Intent(this,LoginActivity.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

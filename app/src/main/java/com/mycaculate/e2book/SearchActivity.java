@@ -1,10 +1,14 @@
 package com.mycaculate.e2book;
 
+import android.content.Intent;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.LocaleList;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -19,10 +23,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
+    Bundle bDate;
+    String[] idForNickname;
     Spinner bookSpinner, locateSpinner;
     EditText edtSearch;
     TextView txtNotFound;
     ImageButton btnSearch;
+    Button btnAddWishList;
     ListView searchListView;
     List<CodeItem> bookCatalogList, locationList;
     CodeAdapter bookCatalogAdapter, locationAdapter;
@@ -36,6 +43,8 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        bDate = this.getIntent().getExtras();
+        idForNickname = bDate.getStringArray("bData");
         Log.d("SearchActivity", "onCreate():Begin");
         initView();
         Log.d("SearchActivity", "onCreate():Pass initView()");
@@ -56,7 +65,7 @@ public class SearchActivity extends AppCompatActivity {
         try
         {
             LoadCode bookCatalog = new LoadCode(this, "BookCatalog", true);
-            bookCatalogList = bookCatalog.execute(WebConnect.URI_GET_CODE_LIST).get();
+            bookCatalogList = bookCatalog.execute(WebConnect.URI_GETCODELIST).get();
         }
         catch (Exception e)
         {
@@ -80,7 +89,7 @@ public class SearchActivity extends AppCompatActivity {
         try
         {
             LoadCode location = new LoadCode(this, "Location", true);
-            locationList = location.execute(WebConnect.URI_GET_CODE_LIST).get();
+            locationList = location.execute(WebConnect.URI_GETCODELIST).get();
         }
         catch (Exception e)
         {
@@ -132,8 +141,29 @@ public class SearchActivity extends AppCompatActivity {
             txtNotFound.setVisibility(View.VISIBLE);
             searchListView.setVisibility(View.INVISIBLE);
         }
-        bookSearchAdapter=new BookSearchAdapter(this, bookSearchList);
+        bookSearchAdapter=new BookSearchAdapter(this, idForNickname, bookSearchList);
         searchListView.setAdapter(bookSearchAdapter);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.backtomenu,menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.backtomenu:
+                Intent intent = new Intent();
+                intent.putExtra("bData",idForNickname);
+                intent.setClass(this,MainActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.logout:
+                startActivity(new Intent(this,LoginActivity.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

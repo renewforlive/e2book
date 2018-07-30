@@ -3,10 +3,14 @@ package com.mycaculate.e2book;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -31,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         intent = new Intent();
         bData = getIntent().getExtras();
         if (bData !=null){
-            idForNickname = bData.getStringArray("idForNickname");
+            idForNickname = bData.getStringArray("bData");
             showNickname.setText(idForNickname[1]);
         }
 
@@ -65,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()){
             case R.id.btn_news:
                 //到news的Activity
+                intent.putExtra("bData",idForNickname);
                 startActivity(intent.setClass(MainActivity.this,NewsInfoActivity.class));
                 break;
             case R.id.btn_catalog:
@@ -75,10 +80,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_rank:
                 //到排名的Activity
+                intent.putExtra("bData",idForNickname);
                 startActivity(intent.setClass(MainActivity.this,RankActivity.class));
                 break;
             case R.id.btn_search:
                 //到搜尋的Activity
+                intent.putExtra("bData",idForNickname);
                 startActivity(intent.setClass(MainActivity.this,SearchActivity.class));
                 break;
             case R.id.btn_mylist:
@@ -100,5 +107,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent.setClass(MainActivity.this,ReadMessage.class));
                 break;
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.backtomenu,menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.backtomenu:
+                Intent intent = new Intent();
+                intent.putExtra("bData",idForNickname);
+                intent.setClass(this,MainActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.logout:
+                startActivity(new Intent(this,LoginActivity.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

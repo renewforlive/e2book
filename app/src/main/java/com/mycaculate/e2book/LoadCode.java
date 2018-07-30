@@ -27,6 +27,7 @@ public class LoadCode extends AsyncTask<String, Void, List<CodeItem>>
     Context mctx;
     String classification;
     ProgressDialog dialog;
+    String resultString;
     boolean includeEmpty;
 
     public LoadCode(Context context, String classification, boolean includeEmpty)
@@ -39,10 +40,8 @@ public class LoadCode extends AsyncTask<String, Void, List<CodeItem>>
 
     @Override
     protected List<CodeItem> doInBackground(String... strings) {
-        String resultString;
-        URL u=null;
-        int cnt;
         List<CodeItem> result=new ArrayList<CodeItem>();
+        URL u=null;
         try
         {
             u=new URL(strings[0]);
@@ -62,22 +61,18 @@ public class LoadCode extends AsyncTask<String, Void, List<CodeItem>>
             InputStream is=conn.getInputStream();
             byte[] b=new byte[1024];
             ByteArrayOutputStream baos=new ByteArrayOutputStream();
-            cnt=is.read(b);
-            while (cnt>0)
-            {
-                baos.write(b, 0, cnt);
-                cnt = is.read(b);
-            }
+            while (is.read(b)!=-1)
+                baos.write(b);
             is.close();
             resultString =new String(baos.toByteArray());
             Log.d("LoadCode","response="+resultString);
-            JSONArray array = new JSONArray(resultString);
+            JSONArray array=new JSONArray(resultString);
             if (includeEmpty)
                 result.add(new CodeItem(classification, 0, ""));
-            for (int i = 0; i < array.length(); i++)
+            for (int i=0;i<array.length();i++)
             {
-                    if (array.getJSONObject(i) != null)
-                        result.add(CodeItem.convertCodeItem(array.getJSONObject(i)));
+                if (array.getJSONObject(i)!=null)
+                    result.add(CodeItem.convertCodeItem(array.getJSONObject(i)));
             }
         } catch (ProtocolException e) {
             e.printStackTrace();
