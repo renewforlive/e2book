@@ -19,6 +19,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class LoadBookSearch extends AsyncTask<String, Void, List<BookSearch>>
             if (this.location!=0)
                 searchString=searchString.concat((searchString.length()>0?"&":"")+"location="+String.valueOf(this.location));
             if (this.keyword.length()>0)
-                searchString=searchString.concat((searchString.length()>0?"&":"")+"keyword="+keyword);
+                searchString=searchString.concat((searchString.length()>0?"&":"")+"keyword="+URLEncoder.encode(keyword, "UTF-8"));
             Log.d("LoadBookSearch", "searchString="+searchString);
             OutputStream os=conn.getOutputStream();
             BufferedWriter writer=new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
