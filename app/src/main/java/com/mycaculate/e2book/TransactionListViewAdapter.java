@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.logging.Handler;
@@ -67,6 +68,7 @@ public class TransactionListViewAdapter extends BaseAdapter {
                         if (msg.what ==1){
                             btn_transaction2.setEnabled(false);
                             btn_transaction2.setVisibility(View.INVISIBLE);
+                            Toast.makeText(context,"已完成交易",Toast.LENGTH_SHORT).show();
                         }
                     }
                 };

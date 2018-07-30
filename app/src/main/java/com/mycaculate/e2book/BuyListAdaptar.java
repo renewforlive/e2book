@@ -136,6 +136,7 @@ public class BuyListAdaptar extends BaseAdapter{
             public void onClick(View v) {
                 TransactionWishlist transactionWishlist = new TransactionWishlist(context, String.valueOf(book_id));
                 transactionWishlist.execute(URI_TRANSACTIONWISHLIST);
+                Toast.makeText(context,"已傳送交易訊息給對方",Toast.LENGTH_SHORT).show();
                 btn_sendmsg.setVisibility(View.INVISIBLE);
                 btn_transaction.setVisibility(View.INVISIBLE);
                 btn_delete.setVisibility(View.INVISIBLE);
