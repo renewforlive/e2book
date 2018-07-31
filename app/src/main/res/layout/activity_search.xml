@@ -17,12 +17,20 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:layout_weight="0"
+                android:text="分類:"
+                android:textSize="24sp" />
+
             <Spinner
                 android:id="@+id/bookSpinner"
-                android:layout_width="150dp"
+                android:layout_width="110dp"
                 android:layout_height="30dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_margin="4dp"
                 android:layout_weight="0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -31,8 +39,7 @@
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_margin="4dp"
                 android:layout_weight="0"
                 android:text="地區:"
                 android:textSize="24sp"
@@ -41,10 +48,9 @@
 
             <Spinner
                 android:id="@+id/locateSpinner"
-                android:layout_width="120dp"
+                android:layout_width="110dp"
                 android:layout_height="30dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_margin="4dp"
                 android:layout_weight="0"
                 app:layout_constraintStart_toEndOf="@+id/textView3"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -55,11 +61,20 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:layout_weight="0"
+                android:text="關鍵字:"
+                android:textSize="24sp" />
+
             <EditText
                 android:id="@+id/edtSearch"
-                android:layout_width="300dp"
+                android:layout_width="210dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_margin="4dp"
                 android:layout_weight="0"
                 android:ems="10"
                 android:hint="@android:string/search_go"
@@ -71,8 +86,7 @@
                 android:id="@+id/btnSearch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="16dp"
+                android:layout_margin="4dp"
                 android:layout_weight="0"
                 android:background="@mipmap/search"
                 app:layout_constraintStart_toEndOf="@+id/edtSearch"
@@ -84,8 +98,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="查無資料"
-            android:textSize="32sp"
+            android:text="請設定篩選條件"
+            android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -2,13 +2,13 @@ package com.mycaculate.e2book;
 
 public class WebConnect {
 
-    //    public static final String WEBCONNECT_PATH="http://172.19.107.21/O2BookPHP/";
+    // Kevin
     public static final String WEBCONNECT_PATH = "http://o2book.kevintw.idv.tw/";
-// Kevin
     public static final String URI_GETCODELIST = WEBCONNECT_PATH + "getcodelist.php";
     public static final String URI_BOOKSEARCH_LIST = WEBCONNECT_PATH + "booksearchlist.php";
     public static final String URI_ADDWISHLIST = WEBCONNECT_PATH + "addwishlist.php";
 
+    //
     public static final String URI_LOGIN = WEBCONNECT_PATH + "login.php";
     public static final String URI_LOGUP = WEBCONNECT_PATH + "insertmember.php";
     public static final String URI_INSERTBOOK = WEBCONNECT_PATH + "insertbook.php";
@@ -28,10 +28,16 @@ public class WebConnect {
     public static final String URI_QUERYWISHLIST = WEBCONNECT_PATH + "querywishlist.php";
     public static final String URI_TRANSACTIONSHELVES = WEBCONNECT_PATH + "transactionshelves.php";
     public static final String URI_UPDATEMESSAGE = WEBCONNECT_PATH + "updatemessage.php";
+    public static final String URI_RANKLOADINGBOOK = WEBCONNECT_PATH + "rank_loadingbook.php";
 
     //IMAGES
     public static final String URI_IMAGES = WEBCONNECT_PATH + "images/";
+<<<<<<< HEAD
 // Jimnmy
     public static final String URI_CREATE_MESSAGE=WEBCONNECT_PATH+"createmessage.php";
     public static final String URI_MESSAGE_CONNECT=WEBCONNECT_PATH+"message_connect.php";
+=======
+
+    //Jimmy
+>>>>>>> master
 }

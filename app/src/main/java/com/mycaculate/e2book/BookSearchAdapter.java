@@ -56,12 +56,12 @@ public class BookSearchAdapter extends BaseAdapter
         Button btnAddWishList=v.findViewById(R.id.btnAddWishList);
         txtCatalog.setText(bookSearch.getCatalog());
         txtBookName.setText(bookSearch.getBookName());
-        txtAuthor.setText(bookSearch.getAuthor());
-        txtPublisher.setText(bookSearch.getPublisher());
+        txtAuthor.setText("作者:"+bookSearch.getAuthor());
+        txtPublisher.setText("出版社:"+bookSearch.getPublisher());
         if (bookSearch.getPrice()==0)
             txtPrice.setText("");
         else
-            txtPrice.setText(String.valueOf(bookSearch.getPrice()));
+            txtPrice.setText("原始售價:"+String.valueOf(bookSearch.getPrice()));
         if (bookSearch.getOwnerId()==0)
         {
             txtOwner.setText("");
@@ -73,11 +73,22 @@ public class BookSearchAdapter extends BaseAdapter
         }
         else
         {
-            txtOwner.setText(bookSearch.getOwnerName());
-            txtArea.setText(bookSearch.getOwnerArea());
-            txtShelveTime.setText(bookSearch.getShelveTime());
-            txtNotes.setText(bookSearch.getShelveNotes());
-            btnAddWishList.setEnabled(true);
+            txtOwner.setText("上架人:"+bookSearch.getOwnerName());
+            txtArea.setText("地區:"+bookSearch.getOwnerArea());
+            txtShelveTime.setText("上架時間:"+bookSearch.getShelveTime());
+            txtNotes.setText("備註:"+bookSearch.getShelveNotes());
+            if (bookSearch.getTransactionTime().length()>0)
+            {
+                btnAddWishList.setEnabled(false);
+                btnAddWishList.setText("已交易");
+            }
+            else if (bookSearch.getDismountedTime().length()>0)
+            {
+                btnAddWishList.setEnabled(false);
+                btnAddWishList.setText("已下架");
+            }
+//            else
+//                btnAddWishList.setEnabled(true);
         }
         btnAddWishList.setOnClickListener(new View.OnClickListener() {
             @Override

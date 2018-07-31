@@ -18,6 +18,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,7 @@ public class SearchActivity extends AppCompatActivity {
     BookSearchAdapter bookSearchAdapter;
     Integer catalog=0, location=0;
     String keyword="";
+    boolean first_time=true;
 
 
     @Override
@@ -112,6 +114,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 keyword= SearchActivity.this.edtSearch.getText().toString();
+                txtNotFound.setText("資料查詢中...");
                 SearchActivity.this.showView();
             }
         });
@@ -140,6 +143,13 @@ public class SearchActivity extends AppCompatActivity {
             Log.d("showView()", "Pass5");
             txtNotFound.setVisibility(View.VISIBLE);
             searchListView.setVisibility(View.INVISIBLE);
+            if (first_time)
+                first_time=false;
+            else
+            {
+                Toast.makeText(this, "找不到資料!", Toast.LENGTH_LONG).show();
+                txtNotFound.setText("無資料, 請重設篩選條件");
+            }
         }
         bookSearchAdapter=new BookSearchAdapter(this, idForNickname, bookSearchList);
         searchListView.setAdapter(bookSearchAdapter);
