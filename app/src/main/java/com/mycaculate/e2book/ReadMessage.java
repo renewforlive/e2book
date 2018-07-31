@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -21,8 +22,8 @@ public class ReadMessage extends AppCompatActivity {
     private Intent intent;
     private ListView readlist;
     private MessageAdapter messageAdapter;
-    private ReadMessageData readMessageData,readMessageData2;
-    List<Message> message_list;
+    private LoadingMessage loadingMessage;
+    private ArrayList<Message> message_list;
     private Bundle bData;
     private String[] idForNickname;
 
@@ -33,16 +34,16 @@ public class ReadMessage extends AppCompatActivity {
         setContentView(R.layout.activity_read_message);
 
         readlist=findViewById(R.id.readList);
-        readMessageData=new ReadMessageData(this);
+        loadingMessage=new LoadingMessage(this,null);
 
 
-        try {
-            message_list=readMessageData.execute(WebConnect.URI_MESSAGE_CONNECT).get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            message_list=LoadingMessage.execute(WebConnect.URI_LOADINGMESSAGE);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        }
 
 
 
@@ -54,10 +55,10 @@ public class ReadMessage extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 intent =new Intent();
-                intent.putExtra("from_name", message_list.get(position).getFrom_id());
-                intent.putExtra("attn_id",message_list.get(position).getAttn_id());
+                intent.putExtra("from_name", message_list.get(position).getSender());
+                intent.putExtra("attn_id",message_list.get(position).getRecipient());
                 intent.putExtra("shelves_id",message_list.get(position).getShelves_id());
-                intent.putExtra("message",message_list.get(position).getMessage());
+                intent.putExtra("message",message_list.get(position).getMsg());
 
 
 

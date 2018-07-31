@@ -1,30 +1,13 @@
 package com.mycaculate.e2book;
 
-<<<<<<< HEAD
-import android.content.Context;
-=======
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.util.Log;
->>>>>>> master
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-<<<<<<< HEAD
-import android.widget.TextView;
-
-import java.util.List;
-
-public class MessageAdapter extends BaseAdapter {
-    private LayoutInflater myInflater;
-    private List<Message> readList;
-
-    public MessageAdapter(Context context, List<Message> readList) {
-        myInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.readList = readList;
-=======
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -48,57 +31,31 @@ public class MessageAdapter extends BaseAdapter {
         this.context = context;
         this.arrayList = arrayList;
         inflater = LayoutInflater.from(context);
->>>>>>> master
     }
 
     @Override
     public int getCount() {
-<<<<<<< HEAD
-        return readList.size();
-=======
         if (arrayList != null)
             return arrayList.size();
         return 0;
->>>>>>> master
     }
 
     @Override
     public Object getItem(int position) {
-<<<<<<< HEAD
-        return readList.get(position);
-=======
         if (arrayList != null)
             return arrayList.get(position);
         return null;
->>>>>>> master
     }
 
     @Override
     public long getItemId(int position) {
-<<<<<<< HEAD
-        return readList.indexOf(getItem(position));
-=======
         if (arrayList != null)
             return arrayList.indexOf(getItem(position));
         return 0;
->>>>>>> master
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-<<<<<<< HEAD
-        Message data=readList.get(position);
-        convertView=myInflater.inflate(R.layout.read_message_view,null);
-        TextView sender_re=convertView.findViewById(R.id.sender_re);
-        sender_re.setText(data.getFrom_id());
-        TextView receiver_re=convertView.findViewById(R.id.receiver_re);
-        receiver_re.setText(data.getAttn_id());
-        TextView shelves_id_re=convertView.findViewById(R.id.shelves_id_re);
-        shelves_id_re.setText(data.getShelves_id());
-        TextView message_re=convertView.findViewById(R.id.message_re);
-        message_re.setText(data.getMessage());
-        return convertView;
-=======
         final Message message = (Message)getItem(position);
         View v = inflater.inflate(R.layout.newsinfo_item,null);
 
@@ -112,7 +69,7 @@ public class MessageAdapter extends BaseAdapter {
         showText.setText(message.getMsg());
         showDate.setText(message.getCreate_time());
 
-        //取得寄件人，收件人，和shelves_id
+//取得寄件人，收件人，和shelves_id
         final String sender = message.getSender();
         final String receipient = message.getRecipient();
         final int shelves_id = message.getShelves_id();
@@ -155,6 +112,5 @@ public class MessageAdapter extends BaseAdapter {
         });
 
         return v;
->>>>>>> master
     }
 }

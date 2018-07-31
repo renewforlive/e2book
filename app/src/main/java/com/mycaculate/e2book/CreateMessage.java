@@ -34,6 +34,7 @@ public class CreateMessage extends AsyncTask<String, Void,ArrayList<Message>> {
     String message;
     String create_time;
     String[] response;
+    LoadingMessage loadingMessage;
 
 
     public CreateMessage(Context context, String from_id, String attn_id, String shelves_id, String message, String create_time) {
@@ -66,14 +67,9 @@ public class CreateMessage extends AsyncTask<String, Void,ArrayList<Message>> {
             DataOutputStream request = new DataOutputStream(conn.getOutputStream());
 
             //上傳訊息等資料
-            request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"from_id\""  + crlf);
-            request.writeBytes(crlf);
-            request.writeBytes(from_id);
-            request.writeBytes(crlf);
 
             request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"attn_id\""  + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"from_id\""  + crlf);
             request.writeBytes(crlf);
             request.writeBytes(attn_id);
             request.writeBytes(crlf);
@@ -82,6 +78,12 @@ public class CreateMessage extends AsyncTask<String, Void,ArrayList<Message>> {
             request.writeBytes("Content-Disposition: form-data; name=\"shelves_id\"" + crlf);
             request.writeBytes(crlf);
             request.writeBytes(shelves_id);
+            request.writeBytes(crlf);
+
+            request.writeBytes(twoHyphens + boundary + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"attn_id\""  + crlf);
+            request.writeBytes(crlf);
+            request.writeBytes(message);
             request.writeBytes(crlf);
 
             request.writeBytes(twoHyphens + boundary + crlf);
@@ -106,7 +108,7 @@ public class CreateMessage extends AsyncTask<String, Void,ArrayList<Message>> {
             for (int i = 0; i < array.length(); i++)
             {
                 if (array.getJSONObject(i) != null)
-                    response.add(ReadMessageData.convertMessage(array.getJSONObject(i)));
+                 response.add(LoadingMessage.convertMessage(array.getJSONObject(i)));
             }
             return response;
 
